@@ -1,1 +1,11 @@
+# File e cartelle di configurazione IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# File di sistema Windows
 .DS_Store
+Thumbs.db
+
+# Eventuali file temporanei di test
+prova.txt
