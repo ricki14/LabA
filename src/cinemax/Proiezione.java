@@ -17,6 +17,9 @@ public class Proiezione {
     private LocalDateTime dataOra;
     private double prezzoBiglietto;
 
+    // Posti liberi (temporaneo)
+    private int postiLiberi = 100;
+
     public Proiezione(String id, Film film, LocalDateTime dataOra, double prezzoBiglietto) {
         this.id = id;
         this.film = film;
@@ -48,6 +51,14 @@ public class Proiezione {
         this.prezzoBiglietto = prezzoBiglietto;
     }
 
+    public int getPostiLiberi() {
+        return postiLiberi;
+    }
+
+    public void setPostiLiberi(int postiLiberi) {
+        this.postiLiberi = postiLiberi;
+    }
+
     @Override
     public String toString() {
         return "Proiezione{" +
@@ -55,6 +66,7 @@ public class Proiezione {
                 ", film=" + film.getTitolo() +
                 ", dataOra=" + dataOra +
                 ", prezzo=" + prezzoBiglietto +
+                ", postiLiberi=" + postiLiberi +
                 '}';
     }
 }
