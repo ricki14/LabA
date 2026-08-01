@@ -15,7 +15,7 @@ public class ProgrammazioneCinema {
 
     private ArrayList<Proiezione> elencoProiezioni;
 
-    public Proiezioni() {
+    public ProgrammazioneCinema() {
         elencoProiezioni = new ArrayList<>();
     }
 

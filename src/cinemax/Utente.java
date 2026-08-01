@@ -11,9 +11,10 @@ public abstract class Utente {
     private LocalDate dataDiNascita;
     private Domicilio domicilio;
     private Ruolo ruolo;
+    private boolean loggato;
 
     public Utente(String nome, String cognome, String username, String password, LocalDate dataDiNascita,
-                  Domicilio domicilio, Ruolo ruolo){
+                  Domicilio domicilio, Ruolo ruolo, boolean loggato){
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
@@ -21,6 +22,7 @@ public abstract class Utente {
         this.dataDiNascita=dataDiNascita;
         this.domicilio=domicilio;
         this.ruolo=ruolo;
+        this.loggato=loggato;
     }
 
     //utente senza data di nascita (è un campo facoltativo)
@@ -88,5 +90,9 @@ public abstract class Utente {
 
     public void setRuolo(Ruolo ruolo) {
         this.ruolo = ruolo;
+    }
+
+    public void setLoggato(boolean loggato) {
+        this.loggato = loggato;
     }
 }
