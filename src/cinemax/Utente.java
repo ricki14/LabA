@@ -89,4 +89,13 @@ public abstract class Utente {
     public void setRuolo(Ruolo ruolo) {
         this.ruolo = ruolo;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null) return false;
+        if (!(o instanceof Utente)) return false;
+        Utente altroUtente = (Utente) o;
+        if(this.getUsername()==null || altroUtente.getUsername()==null) return false;
+        return this.getUsername().equalsIgnoreCase(altroUtente.getUsername());
+    }
 }
