@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class ClienteRegistrato extends Utente{
 
     //campi
-    private LinkedList<>
+    //private LinkedList<>
 
     //costruttore con data di nascita
     public ClienteRegistrato (String nome, String cognome, String username, String password,

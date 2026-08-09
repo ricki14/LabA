@@ -15,7 +15,7 @@ public class ProgrammazioneCinema {
 
     private ArrayList<Proiezione> elencoProiezioni;
 
-    public Proiezioni() {
+    public ProgrammazioneCinema() {
         elencoProiezioni = new ArrayList<>();
     }
 
@@ -130,13 +130,17 @@ public class ProgrammazioneCinema {
         System.out.println("==============================");
     }
 
+    // Carica tutte le proiezioni dal file CSV
+    String percorsoFile="proiezioni.csv";
     public void caricaDaCSV(String percorsoFile) {
 
         elencoProiezioni.clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(percorsoFile))) {
 
+            // Salta l'intestazione
             br.readLine();
+
             String riga;
             int id = 1;
 
@@ -144,54 +148,71 @@ public class ProgrammazioneCinema {
 
                 String[] campi = riga.split(",");
 
+                // Converte la data nel formato corretto per LocalDateTime
+                LocalDateTime dataOra = LocalDateTime.parse(
+                        campi[0].replace("\"", "").replace(" ", "T")
+                );
+
+                // Crea il film togliendo le virgolette
                 Film film = new Film(
-                        campi[1],
-                        campi[2],
-                        campi[3],
+                        campi[1].replace("\"", ""),
+                        campi[2].replace("\"", ""),
+                        campi[3].replace("\"", ""),
                         Integer.parseInt(campi[4]),
                         Integer.parseInt(campi[5]),
-                        Integer.parseInt(campi[6]));
+                        Integer.parseInt(campi[6])
+                );
 
+                // Crea la proiezione
                 Proiezione proiezione = new Proiezione(
                         "P" + id,
                         film,
-                        LocalDateTime.parse(campi[0]),
-                        Double.parseDouble(campi[7]));
+                        dataOra,
+                        Double.parseDouble(campi[7])
+                );
 
                 elencoProiezioni.add(proiezione);
                 id++;
             }
 
+        } catch (IOException e) {
+            System.out.println("Errore durante la lettura del file.");
         } catch (Exception e) {
-            System.out.println("Errore: " + e.getMessage());
+            System.out.println("Errore nel formato del file: " + e.getMessage());
         }
     }
 
+
+    // Salva tutte le proiezioni sul file CSV
     public void salvaSuCSV(String percorsoFile) {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(percorsoFile))) {
 
+            // Scrive l'intestazione
             bw.write("data_ora_proiezione,titolo_film,genere,regista,anno,durata_minuti,eta_minima,prezzo_biglietto");
             bw.newLine();
 
+            // Scrive tutte le proiezioni
             for (Proiezione p : elencoProiezioni) {
 
                 Film f = p.getFilm();
 
-                bw.write(p.getDataOra() + "," +
-                        f.getTitolo() + "," +
-                        f.getGenere() + "," +
-                        f.getRegista() + "," +
-                        f.getAnno() + "," +
-                        f.getDurata() + "," +
-                        f.getEtaMinima() + "," +
-                        p.getPrezzoBiglietto());
+                bw.write(
+                        "\"" + p.getDataOra().toString().replace("T", " ") + "\"," +
+                                "\"" + f.getTitolo() + "\"," +
+                                f.getGenere() + "," +
+                                "\"" + f.getRegista() + "\"," +
+                                f.getAnno() + "," +
+                                f.getDurata() + "," +
+                                f.getEtaMinima() + "," +
+                                p.getPrezzoBiglietto()
+                );
 
                 bw.newLine();
             }
 
         } catch (IOException e) {
-            System.out.println("Errore nel salvataggio del file.");
+            System.out.println("Errore durante il salvataggio del file.");
         }
     }
 }
