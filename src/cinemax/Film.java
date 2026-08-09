@@ -11,6 +11,7 @@ public class Film {
     private int etaMinima;
 
 
+
     public Film(String titolo, String genere, String regista,
                 int anno, int durata, int etaMinima) {
 
