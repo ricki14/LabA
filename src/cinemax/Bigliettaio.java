@@ -12,7 +12,7 @@ public class Bigliettaio extends Utente {
                        Domicilio domicilio) {
 
         super(nome, cognome, username, password,
-                dataDiNascita, domicilio, Ruolo.BIGLIETTAIO);
+                dataDiNascita, domicilio, Ruolo.BIGLIETTAIO, false);
     }
 
     // Costruttore senza data di nascita
@@ -69,10 +69,11 @@ public class Bigliettaio extends Utente {
     }
 
     /**
-     * Logout del bigliettaio.
+     * Effettua il logout del bigliettaio.
      */
     public void logout() {
 
+        setLoggato(false);
         System.out.println("Logout effettuato.");
     }
 }
