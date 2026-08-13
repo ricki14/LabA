@@ -1,46 +1,90 @@
 package cinemax;
 
+/**
+ * Rappresenta un posto a sedere all'interno di una sala cinematografica.
+ *
+ * <p>Ogni posto è identificato da un numero e dalla lettera della fila
+ * a cui appartiene. Inoltre, il posto può essere libero oppure occupato.</p>
+ *
+ * @author Riccardo
+ * @version 1.0
+ */
 public class Posto {
 
-    //campi
+    // Campi
     private int numeroPosto;
     private char letteraFila;
     private boolean occupato;
 
-
-    //costruttore
-    public Posto(int numeroPosto, char letteraFila){
-        this.numeroPosto=numeroPosto;
-        this.letteraFila=letteraFila;
-        occupato=false;
+    /**
+     * Costruisce un nuovo posto.
+     *
+     * <p>Il posto viene inizialmente impostato come libero.</p>
+     *
+     * @param numeroPosto il numero del posto
+     * @param letteraFila la lettera della fila a cui appartiene il posto
+     */
+    public Posto(int numeroPosto, char letteraFila) {
+        this.numeroPosto = numeroPosto;
+        this.letteraFila = letteraFila;
+        occupato = false;
     }
 
-    //metodi
+    /**
+     * Restituisce il numero del posto.
+     *
+     * @return il numero del posto
+     */
     public int getNumeroPosto() {
         return numeroPosto;
     }
 
+    /**
+     * Restituisce la lettera della fila del posto.
+     *
+     * @return la lettera della fila
+     */
     public char getLetteraFila() {
         return letteraFila;
     }
 
-    public boolean isOccupato(){
+    /**
+     * Verifica se il posto è occupato.
+     *
+     * @return {@code true} se il posto è occupato,
+     *         {@code false} se il posto è libero
+     */
+    public boolean isOccupato() {
         return occupato;
     }
 
-    public void prenota(){
-        occupato=true;
+    /**
+     * Prenota il posto.
+     *
+     * <p>Imposta lo stato del posto come occupato.</p>
+     */
+    public void prenota() {
+        occupato = true;
     }
 
-    public void liberaPosto(){
-        occupato=false;
+    /**
+     * Libera il posto.
+     *
+     * <p>Imposta lo stato del posto come libero.</p>
+     */
+    public void liberaPosto() {
+        occupato = false;
     }
 
+    /**
+     * Restituisce una rappresentazione testuale del posto,
+     * indicando la fila, il numero e lo stato di occupazione.
+     *
+     * @return una stringa contenente le informazioni del posto
+     */
     @Override
-    public String toString(){
-        return "fila " +letteraFila+ ", posto numero " +numeroPosto+ " (" +
-                (occupato? "occupato" : "libero")+ ")";
+    public String toString() {
+        return "fila " + letteraFila + ", posto numero " + numeroPosto + " (" +
+                (occupato ? "occupato" : "libero") + ")";
     }
-
-
 }

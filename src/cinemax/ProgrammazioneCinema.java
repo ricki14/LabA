@@ -11,31 +11,83 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Gestisce la programmazione del cinema.
+ *
+ * <p>La classe mantiene un elenco di proiezioni e permette di
+ * aggiungere, cercare e visualizzare le proiezioni. Inoltre consente
+ * di caricare e salvare la programmazione attraverso file CSV.</p>
+ *
+ * @version 1.0
+ */
 public class ProgrammazioneCinema {
 
+    /**
+     * Elenco delle proiezioni presenti nella programmazione del cinema.
+     */
     private ArrayList<Proiezione> elencoProiezioni;
 
+    /**
+     * Costruisce una nuova programmazione del cinema.
+     *
+     * <p>L'elenco delle proiezioni viene inizializzato come lista vuota.</p>
+     */
     public ProgrammazioneCinema() {
         elencoProiezioni = new ArrayList<>();
     }
 
+    /**
+     * Aggiunge una proiezione alla programmazione del cinema.
+     *
+     * @param proiezione la proiezione da aggiungere
+     */
     public void aggiungiProiezione(Proiezione proiezione) {
         elencoProiezioni.add(proiezione);
     }
 
+    /**
+     * Restituisce l'elenco delle proiezioni presenti nella programmazione.
+     *
+     * @return la lista delle proiezioni
+     */
     public ArrayList<Proiezione> getElencoProiezioni() {
         return elencoProiezioni;
     }
 
+    /**
+     * Cerca una proiezione tramite il suo identificativo.
+     *
+     * <p>La ricerca non distingue tra lettere maiuscole e minuscole.</p>
+     *
+     * @param id l'identificativo della proiezione da cercare
+     * @return la proiezione corrispondente all'ID indicato,
+     *         oppure {@code null} se non viene trovata
+     */
     public Proiezione cercaPerId(String id) {
         for (Proiezione p : elencoProiezioni) {
             if (p.getId().equalsIgnoreCase(id)) {
                 return p;
             }
         }
+
         return null;
     }
 
+    /**
+     * Cerca una proiezione utilizzando diversi criteri di ricerca.
+     *
+     * <p>L'utente può filtrare le proiezioni in base al titolo,
+     * al genere, a un intervallo di date e al costo massimo del biglietto.
+     * I campi lasciati vuoti vengono ignorati durante la ricerca.</p>
+     *
+     * <p>Dopo aver effettuato la ricerca, vengono visualizzate le
+     * proiezioni che soddisfano i criteri inseriti. L'utente può quindi
+     * selezionare una delle proiezioni trovate per visualizzarne
+     * i dettagli.</p>
+     *
+     * @param scanner oggetto utilizzato per leggere i dati inseriti
+     *                dall'utente
+     */
     public void cercaProiezione(Scanner scanner) {
 
         try {
@@ -55,9 +107,14 @@ public class ProgrammazioneCinema {
             System.out.print("Costo massimo: ");
             String inputCosto = scanner.nextLine();
 
-            LocalDate dataInizio = inputInizio.isBlank() ? null : LocalDate.parse(inputInizio);
-            LocalDate dataFine = inputFine.isBlank() ? null : LocalDate.parse(inputFine);
-            Double costo = inputCosto.isBlank() ? null : Double.parseDouble(inputCosto);
+            LocalDate dataInizio =
+                    inputInizio.isBlank() ? null : LocalDate.parse(inputInizio);
+
+            LocalDate dataFine =
+                    inputFine.isBlank() ? null : LocalDate.parse(inputFine);
+
+            Double costo =
+                    inputCosto.isBlank() ? null : Double.parseDouble(inputCosto);
 
             ArrayList<Proiezione> risultati = new ArrayList<>();
 
@@ -66,7 +123,9 @@ public class ProgrammazioneCinema {
                 boolean ok = true;
 
                 if (!titolo.isBlank() &&
-                        !p.getFilm().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
+                        !p.getFilm().getTitolo()
+                                .toLowerCase()
+                                .contains(titolo.toLowerCase()))
                     ok = false;
 
                 if (!genere.isBlank() &&
@@ -93,11 +152,15 @@ public class ProgrammazioneCinema {
                 return;
             }
 
-            System.out.println("\\n===== PROIEZIONI TROVATE =====");
+            System.out.println("\n===== PROIEZIONI TROVATE =====");
 
             for (int i = 0; i < risultati.size(); i++) {
                 Proiezione p = risultati.get(i);
-                System.out.println((i + 1) + ") " + p.getFilm().getTitolo() + " - " + p.getDataOra());
+                System.out.println(
+                        (i + 1) + ") " +
+                                p.getFilm().getTitolo() + " - " +
+                                p.getDataOra()
+                );
             }
 
             System.out.print("Seleziona una proiezione: ");
@@ -113,11 +176,20 @@ public class ProgrammazioneCinema {
         }
     }
 
+    /**
+     * Visualizza a video i dettagli di una proiezione.
+     *
+     * <p>Vengono mostrati i dati del film associato alla proiezione,
+     * la data e l'ora, il prezzo del biglietto e il numero di posti
+     * attualmente liberi.</p>
+     *
+     * @param p la proiezione di cui visualizzare i dettagli
+     */
     public void visualizzaProiezione(Proiezione p) {
 
         Film film = p.getFilm();
 
-        System.out.println("\\n========== DETTAGLI ==========");
+        System.out.println("\n========== DETTAGLI ==========");
         System.out.println("Titolo: " + film.getTitolo());
         System.out.println("Genere: " + film.getGenere());
         System.out.println("Regista: " + film.getRegista());
@@ -130,13 +202,31 @@ public class ProgrammazioneCinema {
         System.out.println("==============================");
     }
 
-    // Carica tutte le proiezioni dal file CSV
-    String percorsoFile="proiezioni.csv";
+    /**
+     * Percorso predefinito del file CSV contenente le proiezioni.
+     */
+    String percorsoFile = "proiezioni.csv";
+
+    /**
+     * Carica le proiezioni da un file CSV.
+     *
+     * <p>Prima di caricare i dati, l'elenco delle proiezioni attualmente
+     * presente viene svuotato. Il file CSV viene quindi letto riga per
+     * riga e, per ogni riga, vengono creati un oggetto {@link Film} e
+     * un oggetto {@link Proiezione}.</p>
+     *
+     * <p>La prima riga del file viene considerata come intestazione
+     * e viene quindi ignorata.</p>
+     *
+     * @param percorsoFile percorso del file CSV da cui caricare
+     *                     le proiezioni
+     */
     public void caricaDaCSV(String percorsoFile) {
 
         elencoProiezioni.clear();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(percorsoFile))) {
+        try (BufferedReader br =
+                     new BufferedReader(new FileReader(percorsoFile))) {
 
             // Salta l'intestazione
             br.readLine();
@@ -178,18 +268,32 @@ public class ProgrammazioneCinema {
         } catch (IOException e) {
             System.out.println("Errore durante la lettura del file.");
         } catch (Exception e) {
-            System.out.println("Errore nel formato del file: " + e.getMessage());
+            System.out.println(
+                    "Errore nel formato del file: " + e.getMessage()
+            );
         }
     }
 
-
-    // Salva tutte le proiezioni sul file CSV
+    /**
+     * Salva tutte le proiezioni presenti nella programmazione
+     * all'interno di un file CSV.
+     *
+     * <p>Il metodo crea o sovrascrive il file indicato e inserisce
+     * una riga di intestazione seguita dai dati di ogni proiezione.</p>
+     *
+     * @param percorsoFile percorso del file CSV in cui salvare
+     *                     le proiezioni
+     */
     public void salvaSuCSV(String percorsoFile) {
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(percorsoFile))) {
+        try (BufferedWriter bw =
+                     new BufferedWriter(new FileWriter(percorsoFile))) {
 
             // Scrive l'intestazione
-            bw.write("data_ora_proiezione,titolo_film,genere,regista,anno,durata_minuti,eta_minima,prezzo_biglietto");
+            bw.write(
+                    "data_ora_proiezione,titolo_film,genere,regista," +
+                            "anno,durata_minuti,eta_minima,prezzo_biglietto"
+            );
             bw.newLine();
 
             // Scrive tutte le proiezioni
@@ -198,7 +302,9 @@ public class ProgrammazioneCinema {
                 Film f = p.getFilm();
 
                 bw.write(
-                        "\"" + p.getDataOra().toString().replace("T", " ") + "\"," +
+                        "\"" + p.getDataOra()
+                                .toString()
+                                .replace("T", " ") + "\"," +
                                 "\"" + f.getTitolo() + "\"," +
                                 f.getGenere() + "," +
                                 "\"" + f.getRegista() + "\"," +
