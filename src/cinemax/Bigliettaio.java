@@ -10,7 +10,7 @@ import java.util.Scanner;
  * <p>Il bigliettaio può visualizzare le prenotazioni effettuate
  * nella giornata corrente, cercare una prenotazione tramite il
  * relativo identificativo ed effettuare il logout.</p>
- *
+ * @author Riccardo Palomba
  * @version 1.0
  */
 public class Bigliettaio extends Utente {

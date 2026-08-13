@@ -5,7 +5,7 @@ package cinemax;
  *
  * <p>Il domicilio contiene le informazioni relative all'indirizzo,
  * tra cui via, numero civico, CAP, città e provincia.</p>
- *
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public class Domicilio {

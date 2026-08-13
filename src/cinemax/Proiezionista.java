@@ -12,7 +12,7 @@ import java.util.Scanner;
  * <p>Il proiezionista può aggiungere ed eliminare proiezioni dalla
  * programmazione, modificare la data e l'ora di una proiezione
  * ed effettuare il logout.</p>
- *
+ * @author Daniele Rossetti
  * @version 1.0
  */
 public class Proiezionista extends Utente {

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * <p>Una stessa pellicola può avere più proiezioni in giorni o orari
  * differenti. Per questo motivo possono esistere più oggetti
  * {@code Proiezione} associati allo stesso {@link Film}.</p>
- *
+ * @author  Riccardo Palomba
  * @version 1.0
  */
 public class Proiezione {

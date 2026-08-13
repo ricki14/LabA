@@ -13,7 +13,7 @@ import java.time.LocalDate;
  * <p>La data di nascita è un campo facoltativo e per questo motivo
  * sono disponibili due costruttori: uno che permette di specificarla
  * e uno che permette di creare un utente senza data di nascita.</p>
- *
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public abstract class Utente {

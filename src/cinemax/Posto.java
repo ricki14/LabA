@@ -6,7 +6,7 @@ package cinemax;
  * <p>Ogni posto è identificato da un numero e dalla lettera della fila
  * a cui appartiene. Inoltre, il posto può essere libero oppure occupato.</p>
  *
- * @author Riccardo
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public class Posto {

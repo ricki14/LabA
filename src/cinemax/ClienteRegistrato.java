@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * <p>La classe prevede inoltre i metodi necessari per la gestione
  * delle prenotazioni, attualmente non ancora implementati.</p>
- *
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public class ClienteRegistrato extends Utente {

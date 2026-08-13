@@ -17,7 +17,7 @@ import java.util.Scanner;
  * <p>La classe mantiene un elenco di proiezioni e permette di
  * aggiungere, cercare e visualizzare le proiezioni. Inoltre consente
  * di caricare e salvare la programmazione attraverso file CSV.</p>
- *
+ * @author Riccardo Palomba
  * @version 1.0
  */
 public class ProgrammazioneCinema {

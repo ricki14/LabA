@@ -14,7 +14,7 @@ import java.util.UUID;
  *
  * <p>Alla creazione della prenotazione, tutti i posti presenti nella
  * lista vengono automaticamente impostati come occupati.</p>
- *
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public class Prenotazione {

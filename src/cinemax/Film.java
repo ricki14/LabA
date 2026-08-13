@@ -7,7 +7,7 @@ package cinemax;
  * dall'anno di uscita, dalla durata e dall'età minima richiesta
  * per la visione.</p>
  *
- * @author Riccardo
+ * @author Riccardo Palomba
  * @version 1.0
  */
 public class Film {
