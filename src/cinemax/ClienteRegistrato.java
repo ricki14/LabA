@@ -1,7 +1,6 @@
 package cinemax;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 
 /**
  * Rappresenta un cliente registrato del sistema Cinemax.
@@ -13,7 +12,6 @@ import java.util.LinkedList;
  * <p>La classe prevede inoltre i metodi necessari per la gestione
  * delle prenotazioni, attualmente non ancora implementati.</p>
  *
- * @author Riccardo
  * @version 1.0
  */
 public class ClienteRegistrato extends Utente {
@@ -21,9 +19,6 @@ public class ClienteRegistrato extends Utente {
     /**
      * Costruisce un nuovo cliente registrato specificando la data
      * di nascita.
-     *
-     * <p>Il ruolo viene impostato automaticamente a
-     * {@link Ruolo#CLIENTE}.</p>
      *
      * @param nome il nome del cliente
      * @param cognome il cognome del cliente
@@ -36,16 +31,14 @@ public class ClienteRegistrato extends Utente {
     public ClienteRegistrato(String nome, String cognome, String username,
                              String password, LocalDate dataDiNascita,
                              Domicilio domicilio, Ruolo ruolo) {
+
         super(nome, cognome, username, password,
-                dataDiNascita, domicilio, Ruolo.CLIENTE);
+                dataDiNascita, domicilio, Ruolo.CLIENTE, false);
     }
 
     /**
      * Costruisce un nuovo cliente registrato senza specificare
      * la data di nascita.
-     *
-     * <p>Il ruolo viene impostato automaticamente a
-     * {@link Ruolo#CLIENTE}.</p>
      *
      * @param nome il nome del cliente
      * @param cognome il cognome del cliente
@@ -57,6 +50,7 @@ public class ClienteRegistrato extends Utente {
     public ClienteRegistrato(String nome, String cognome, String username,
                              String password, Domicilio domicilio,
                              Ruolo ruolo) {
+
         super(nome, cognome, username, password,
                 domicilio, Ruolo.CLIENTE);
     }
@@ -67,7 +61,6 @@ public class ClienteRegistrato extends Utente {
      * <p>Il metodo è attualmente predisposto ma non ancora implementato.</p>
      */
     public void creaPrenotazione() {
-
     }
 
     /**
@@ -76,7 +69,6 @@ public class ClienteRegistrato extends Utente {
      * <p>Il metodo è attualmente predisposto ma non ancora implementato.</p>
      */
     public void visualizzaPrenotazione() {
-
     }
 
     /**
@@ -85,7 +77,6 @@ public class ClienteRegistrato extends Utente {
      * <p>Il metodo è attualmente predisposto ma non ancora implementato.</p>
      */
     public void modificaPrenotazione() {
-
     }
 
     /**
@@ -94,6 +85,5 @@ public class ClienteRegistrato extends Utente {
      * <p>Il metodo è attualmente predisposto ma non ancora implementato.</p>
      */
     public void eliminaPrenotazione() {
-
     }
 }
