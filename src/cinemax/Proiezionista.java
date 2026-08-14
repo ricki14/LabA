@@ -45,6 +45,7 @@ public class Proiezionista extends Utente {
     public void aggiungiProiezioni(Proiezione proiezione,
                                    List<Proiezione> proiezioni) {
         proiezioni.add(proiezione);
+        GestoreProiezioni.scriviProiezioni(proiezioni);
     }
 
     /**
@@ -58,14 +59,11 @@ public class Proiezionista extends Utente {
      * @param proiezione la proiezione di cui modificare data e ora
      * @return la proiezione con la nuova data e ora
      */
-    public Proiezione cambiaData(Proiezione proiezione) {
+    public void cambiaData(Proiezione proiezione, List<Proiezione> proiezioni) {
         Scanner scanner = new Scanner(System.in);
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        System.out.print(
-                "Inserisci data e ora (es. 01/08/2026 14:30): "
-        );
+        System.out.print("Inserisci data e ora (es. 01/08/2026 14:30): ");
 
         String input = scanner.nextLine();
         LocalDateTime dataOra =
@@ -73,7 +71,7 @@ public class Proiezionista extends Utente {
 
         proiezione.setDataOra(dataOra);
 
-        return proiezione;
+        GestoreProiezioni.scriviProiezioni(proiezioni);
     }
 
     /**
@@ -85,6 +83,7 @@ public class Proiezionista extends Utente {
     public void eliminaProiezione(Proiezione proiezione,
                                   List<Proiezione> proiezioni) {
         proiezioni.remove(proiezione);
+        GestoreProiezioni.scriviProiezioni(proiezioni);
     }
 
     /**
