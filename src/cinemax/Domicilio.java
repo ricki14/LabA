@@ -53,6 +53,26 @@ public class Domicilio {
         this.provincia = provincia;
     }
 
+    public String getVia() {
+        return via;
+    }
+
+    public String getNumeroCivico() {
+        return numeroCivico;
+    }
+
+    public String getCap() {
+        return cap;
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
     /**
      * Restituisce una rappresentazione testuale del domicilio.
      *
@@ -61,6 +81,9 @@ public class Domicilio {
      *
      * @return una stringa contenente i dati del domicilio
      */
+
+
+
     @Override
     public String toString() {
         return via + " " + numeroCivico + ", (" + cap + "), "
