@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * <p>Gestisce la lista delle prenotazioni effettuate dall'utente tramite
  * le funzionalità di creazione, visualizzazione, modifica ed eliminazione.</p>
  *
- * @author Riccardo, Edoardo
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public class ClienteRegistrato extends Utente {

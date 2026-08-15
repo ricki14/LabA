@@ -1,27 +1,28 @@
 package cinemax;
 
 /**
- * Rappresenta il domicilio di un utente del sistema Cinemax.
+ * Rappresenta il domicilio di un utente del sistema CineMax.
  *
  * <p>Il domicilio contiene le informazioni relative all'indirizzo,
  * tra cui via, numero civico, CAP, città e provincia.</p>
+ *
  * @author Edoardo Carducci
  * @version 1.0
  */
 public class Domicilio {
 
     /**
-     * Nome della via.
+     * Nome della via del domicilio.
      */
     private String via;
 
     /**
-     * Numero civico dell'abitazione.
+     * Numero civico del domicilio.
      */
     private String numeroCivico;
 
     /**
-     * Codice di avviamento postale.
+     * Codice di avviamento postale del domicilio.
      */
     private String cap;
 
@@ -36,7 +37,7 @@ public class Domicilio {
     private String provincia;
 
     /**
-     * Costruisce un nuovo domicilio.
+     * Costruisce un nuovo domicilio con i dati specificati.
      *
      * @param via la via del domicilio
      * @param numeroCivico il numero civico del domicilio
@@ -53,22 +54,47 @@ public class Domicilio {
         this.provincia = provincia;
     }
 
+    /**
+     * Restituisce la via del domicilio.
+     *
+     * @return la via del domicilio
+     */
     public String getVia() {
         return via;
     }
 
+    /**
+     * Restituisce il numero civico del domicilio.
+     *
+     * @return il numero civico del domicilio
+     */
     public String getNumeroCivico() {
         return numeroCivico;
     }
 
+    /**
+     * Restituisce il CAP del domicilio.
+     *
+     * @return il codice di avviamento postale
+     */
     public String getCap() {
         return cap;
     }
 
+    /**
+     * Restituisce la città del domicilio.
+     *
+     * @return la città del domicilio
+     */
     public String getCitta() {
         return citta;
     }
 
+    /**
+     * Restituisce la provincia del domicilio.
+     *
+     * @return la provincia del domicilio
+     */
     public String getProvincia() {
         return provincia;
     }
@@ -81,9 +107,6 @@ public class Domicilio {
      *
      * @return una stringa contenente i dati del domicilio
      */
-
-
-
     @Override
     public String toString() {
         return via + " " + numeroCivico + ", (" + cap + "), "

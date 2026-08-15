@@ -205,7 +205,7 @@ public class ProgrammazioneCinema {
     /**
      * Percorso predefinito del file CSV contenente le proiezioni.
      */
-    String percorsoFile = "proiezioni.csv";
+   /*  String percorsoFile = "proiezioni.csv";
 
     /**
      * Carica le proiezioni da un file CSV.
@@ -220,7 +220,7 @@ public class ProgrammazioneCinema {
      *
      * @param percorsoFile percorso del file CSV da cui caricare
      *                     le proiezioni
-     */
+
     public void caricaDaCSV(String percorsoFile) {
 
         elencoProiezioni.clear();
@@ -283,7 +283,7 @@ public class ProgrammazioneCinema {
      *
      * @param percorsoFile percorso del file CSV in cui salvare
      *                     le proiezioni
-     */
+
     public void salvaSuCSV(String percorsoFile) {
 
         try (BufferedWriter bw =
@@ -320,5 +320,5 @@ public class ProgrammazioneCinema {
         } catch (IOException e) {
             System.out.println("Errore durante il salvataggio del file.");
         }
-    }
+    }*/
 }
