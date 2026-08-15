@@ -59,6 +59,7 @@ public class GestoreUtenti {
     }
 
     public void caricaUtenti(){
+        utenti.clear();
         try(BufferedReader reader = new BufferedReader(new FileReader(percorsoFile))){
 
             String riga = reader.readLine();
@@ -100,6 +101,17 @@ public class GestoreUtenti {
                     } else if(ruolo==Ruolo.BIGLIETTAIO){
                         utente=new Bigliettaio(nome, cognome, username, password,
                                 dataDiNascita, domicilio);
+                    }else if (ruolo == Ruolo.PROIEZIONISTA) {
+                        utente = new Proiezionista(
+                                nome,
+                                cognome,
+                                username,
+                                password,
+                                dataDiNascita,
+                                domicilio,
+                                ruolo,
+                                false
+                        );
                     }
                     if(utente!=null){
                         utenti.add(utente);
