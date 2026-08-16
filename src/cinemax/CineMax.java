@@ -90,6 +90,7 @@ public class CineMax {
                 scanner.nextLine();
             }
         }
+
         scanner.close();
     }
 }

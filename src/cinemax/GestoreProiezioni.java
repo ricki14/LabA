@@ -173,6 +173,7 @@ public class GestoreProiezioni {
             );
         }
 
+
         return proiezioni;
     }
 

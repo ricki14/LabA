@@ -30,6 +30,7 @@ public class GestorePrenotazioni {
     private final String percorso_file =
             "data/prenotazioni.csv";
 
+
     /**
      * Legge dal file CSV tutte le prenotazioni presenti.
      *

@@ -22,6 +22,7 @@ public final class PasswordUtil {
     private PasswordUtil() {
     }
 
+
     /**
      * Calcola l'hash SHA-256 della password fornita.
      *

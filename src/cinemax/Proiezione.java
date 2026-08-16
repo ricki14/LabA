@@ -19,6 +19,7 @@ import java.util.LinkedList;
  */
 public class Proiezione {
 
+
     /**
      * Identificativo univoco della proiezione.
      */

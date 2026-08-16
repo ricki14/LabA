@@ -399,7 +399,6 @@ public class ClienteRegistrato extends Utente {
                 return posto;
             }
         }
-
         return null;
     }
 }

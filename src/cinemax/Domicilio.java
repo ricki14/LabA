@@ -110,6 +110,5 @@ public class Domicilio {
     @Override
     public String toString() {
         return via + " " + numeroCivico + ", (" + cap + "), "
-                + citta + ", " + provincia;
-    }
+                + citta + ", " + provincia;}
 }
