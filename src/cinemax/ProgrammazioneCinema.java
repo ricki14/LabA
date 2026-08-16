@@ -74,108 +74,203 @@ public class ProgrammazioneCinema {
     }
 
     /**
-     * Cerca una proiezione utilizzando diversi criteri di ricerca.
+     * Permette all'utente di cercare una proiezione attraverso diversi criteri
+     * e di selezionare una delle proiezioni trovate.
      *
-     * <p>L'utente può filtrare le proiezioni in base al titolo,
-     * al genere, a un intervallo di date e al costo massimo del biglietto.
-     * I campi lasciati vuoti vengono ignorati durante la ricerca.</p>
+     * <p>I criteri di ricerca sono il titolo del film, il genere,
+     * un intervallo di date e il costo massimo del biglietto.
+     * Un campo lasciato vuoto viene ignorato.</p>
      *
-     * <p>Dopo aver effettuato la ricerca, vengono visualizzate le
-     * proiezioni che soddisfano i criteri inseriti. L'utente può quindi
-     * selezionare una delle proiezioni trovate per visualizzarne
-     * i dettagli.</p>
-     *
-     * @param scanner oggetto utilizzato per leggere i dati inseriti
-     *                dall'utente
+     * @param scanner scanner utilizzato per leggere gli input dell'utente
+     * @return la proiezione selezionata dall'utente oppure {@code null}
+     *         se non viene trovata o selezionata alcuna proiezione
      */
-    public void cercaProiezione(Scanner scanner) {
+    public Proiezione cercaProiezione(Scanner scanner) {
 
         try {
 
-            System.out.print("Titolo (Invio se non interessa): ");
+            System.out.print(
+                    "Titolo (Invio se non interessa): "
+            );
             String titolo = scanner.nextLine();
 
-            System.out.print("Genere (Invio se non interessa): ");
+            System.out.print(
+                    "Genere (Invio se non interessa): "
+            );
             String genere = scanner.nextLine();
 
-            System.out.print("Data inizio (AAAA-MM-GG): ");
+            System.out.print(
+                    "Data inizio (AAAA-MM-GG): "
+            );
             String inputInizio = scanner.nextLine();
 
-            System.out.print("Data fine (AAAA-MM-GG): ");
+            System.out.print(
+                    "Data fine (AAAA-MM-GG): "
+            );
             String inputFine = scanner.nextLine();
 
-            System.out.print("Costo massimo: ");
+            System.out.print(
+                    "Costo massimo: "
+            );
             String inputCosto = scanner.nextLine();
 
             LocalDate dataInizio =
-                    inputInizio.isBlank() ? null : LocalDate.parse(inputInizio);
+                    inputInizio.isBlank()
+                            ? null
+                            : LocalDate.parse(inputInizio);
 
             LocalDate dataFine =
-                    inputFine.isBlank() ? null : LocalDate.parse(inputFine);
+                    inputFine.isBlank()
+                            ? null
+                            : LocalDate.parse(inputFine);
 
             Double costo =
-                    inputCosto.isBlank() ? null : Double.parseDouble(inputCosto);
+                    inputCosto.isBlank()
+                            ? null
+                            : Double.parseDouble(
+                            inputCosto.replace(',', '.')
+                    );
 
-            ArrayList<Proiezione> risultati = new ArrayList<>();
+            ArrayList<Proiezione> risultati =
+                    new ArrayList<>();
 
             for (Proiezione p : elencoProiezioni) {
 
                 boolean ok = true;
 
-                if (!titolo.isBlank() &&
-                        !p.getFilm().getTitolo()
-                                .toLowerCase()
-                                .contains(titolo.toLowerCase()))
+                // Controllo titolo
+                if (!titolo.isBlank()
+                        && !p.getFilm()
+                        .getTitolo()
+                        .toLowerCase()
+                        .contains(titolo.toLowerCase())) {
+
                     ok = false;
+                }
 
-                if (!genere.isBlank() &&
-                        !p.getFilm().getGenere().equalsIgnoreCase(genere))
+                // Controllo genere
+                if (!genere.isBlank()
+                        && !p.getFilm()
+                        .getGenere()
+                        .equalsIgnoreCase(genere)) {
+
                     ok = false;
+                }
 
-                LocalDate data = p.getDataOra().toLocalDate();
+                LocalDate data =
+                        p.getDataOra().toLocalDate();
 
-                if (dataInizio != null && data.isBefore(dataInizio))
+                // Controllo data iniziale
+                if (dataInizio != null
+                        && data.isBefore(dataInizio)) {
+
                     ok = false;
+                }
 
-                if (dataFine != null && data.isAfter(dataFine))
+                // Controllo data finale
+                if (dataFine != null
+                        && data.isAfter(dataFine)) {
+
                     ok = false;
+                }
 
-                if (costo != null && p.getPrezzoBiglietto() > costo)
+                // Controllo costo massimo
+                if (costo != null
+                        && p.getPrezzoBiglietto() > costo) {
+
                     ok = false;
+                }
 
-                if (ok)
+                if (ok) {
                     risultati.add(p);
+                }
             }
 
+            // Nessun risultato
             if (risultati.isEmpty()) {
-                System.out.println("Nessuna proiezione trovata.");
-                return;
+
+                System.out.println(
+                        "Nessuna proiezione trovata."
+                );
+
+                return null;
             }
 
-            System.out.println("\n===== PROIEZIONI TROVATE =====");
+            System.out.println(
+                    "\n===== PROIEZIONI TROVATE ====="
+            );
 
             for (int i = 0; i < risultati.size(); i++) {
+
                 Proiezione p = risultati.get(i);
+
                 System.out.println(
-                        (i + 1) + ") " +
-                                p.getFilm().getTitolo() + " - " +
-                                p.getDataOra()
+                        (i + 1) + ") "
+                                + p.getFilm().getTitolo()
+                                + " - "
+                                + p.getDataOra()
                 );
             }
 
-            System.out.print("Seleziona una proiezione: ");
-            int scelta = scanner.nextInt();
-            scanner.nextLine();
+            int scelta;
 
-            if (scelta >= 1 && scelta <= risultati.size()) {
-                visualizzaProiezione(risultati.get(scelta - 1));
+            while (true) {
+
+                System.out.print(
+                        "Seleziona una proiezione: "
+                );
+
+                String input = scanner.nextLine();
+
+                try {
+
+                    scelta = Integer.parseInt(input);
+
+                    if (scelta >= 1
+                            && scelta <= risultati.size()) {
+
+                        break;
+                    }
+
+                    System.out.println(
+                            "Selezione non valida."
+                    );
+
+                } catch (NumberFormatException e) {
+
+                    System.out.println(
+                            "Inserisci un numero valido."
+                    );
+                }
             }
 
+            Proiezione proiezioneSelezionata =
+                    risultati.get(scelta - 1);
+
+            visualizzaProiezione(
+                    proiezioneSelezionata
+            );
+
+            return proiezioneSelezionata;
+
         } catch (DateTimeParseException e) {
-            System.out.println("Formato data non valido.");
+
+            System.out.println(
+                    "Formato data non valido. "
+                            + "Usa AAAA-MM-GG."
+            );
+
+            return null;
+
+        } catch (NumberFormatException e) {
+
+            System.out.println(
+                    "Il costo massimo deve essere un numero valido."
+            );
+
+            return null;
         }
     }
-
     /**
      * Visualizza a video i dettagli di una proiezione.
      *

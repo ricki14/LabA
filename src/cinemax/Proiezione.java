@@ -1,18 +1,20 @@
 package cinemax;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 /**
  * Rappresenta una singola proiezione di un film.
  *
  * <p>Ogni proiezione contiene le informazioni relative a una specifica
  * programmazione del cinema, tra cui il film proiettato, la data e l'ora
- * della proiezione, il prezzo del biglietto e il numero di posti liberi.</p>
+ * della proiezione, il prezzo del biglietto e i posti disponibili.</p>
  *
- * <p>Una stessa pellicola può avere più proiezioni in giorni o orari
- * differenti. Per questo motivo possono esistere più oggetti
- * {@code Proiezione} associati allo stesso {@link Film}.</p>
- * @author  Riccardo Palomba
+ * <p>Ogni proiezione possiede una propria lista di 200 posti,
+ * organizzati in 20 file da 10 posti ciascuna. I posti sono inizialmente
+ * tutti liberi.</p>
+ *
+ * @author Riccardo Palomba
  * @version 1.0
  */
 public class Proiezione {
@@ -38,12 +40,16 @@ public class Proiezione {
     private double prezzoBiglietto;
 
     /**
-     * Numero di posti attualmente liberi nella sala.
+     * Lista dei posti disponibili nella sala della proiezione.
      */
-    private int postiLiberi = 100;
+    private LinkedList<Posto> posti;
 
     /**
      * Costruisce una nuova proiezione.
+     *
+     * <p>Durante la costruzione vengono creati automaticamente
+     * 200 posti, organizzati nelle file dalla A alla T,
+     * con 10 posti per ogni fila.</p>
      *
      * @param id identificativo della proiezione
      * @param film film associato alla proiezione
@@ -52,16 +58,25 @@ public class Proiezione {
      */
     public Proiezione(String id, Film film, LocalDateTime dataOra,
                       double prezzoBiglietto) {
+
         this.id = id;
         this.film = film;
         this.dataOra = dataOra;
         this.prezzoBiglietto = prezzoBiglietto;
+
+        posti = new LinkedList<>();
+
+        for (char fila = 'A'; fila <= 'T'; fila++) {
+            for (int numero = 1; numero <= 10; numero++) {
+                posti.add(new Posto(numero, fila));
+            }
+        }
     }
 
     /**
      * Restituisce l'identificativo della proiezione.
      *
-     * @return l'identificativo della proiezione
+     * @return identificativo della proiezione
      */
     public String getId() {
         return id;
@@ -70,7 +85,7 @@ public class Proiezione {
     /**
      * Restituisce il film associato alla proiezione.
      *
-     * @return il film della proiezione
+     * @return film della proiezione
      */
     public Film getFilm() {
         return film;
@@ -79,7 +94,7 @@ public class Proiezione {
     /**
      * Restituisce la data e l'ora della proiezione.
      *
-     * @return la data e l'ora della proiezione
+     * @return data e ora della proiezione
      */
     public LocalDateTime getDataOra() {
         return dataOra;
@@ -88,7 +103,7 @@ public class Proiezione {
     /**
      * Modifica la data e l'ora della proiezione.
      *
-     * @param dataOra la nuova data e ora della proiezione
+     * @param dataOra nuova data e ora della proiezione
      */
     public void setDataOra(LocalDateTime dataOra) {
         this.dataOra = dataOra;
@@ -97,7 +112,7 @@ public class Proiezione {
     /**
      * Restituisce il prezzo del biglietto.
      *
-     * @return il prezzo del biglietto
+     * @return prezzo del biglietto
      */
     public double getPrezzoBiglietto() {
         return prezzoBiglietto;
@@ -106,28 +121,41 @@ public class Proiezione {
     /**
      * Modifica il prezzo del biglietto.
      *
-     * @param prezzoBiglietto il nuovo prezzo del biglietto
+     * @param prezzoBiglietto nuovo prezzo del biglietto
      */
     public void setPrezzoBiglietto(double prezzoBiglietto) {
         this.prezzoBiglietto = prezzoBiglietto;
     }
 
     /**
-     * Restituisce il numero di posti liberi.
+     * Restituisce la lista dei posti della proiezione.
      *
-     * @return il numero di posti liberi
+     * @return lista dei posti
      */
-    public int getPostiLiberi() {
-        return postiLiberi;
+    public LinkedList<Posto> getPosti() {
+        return posti;
     }
 
     /**
-     * Modifica il numero di posti liberi.
+     * Restituisce il numero di posti attualmente liberi.
      *
-     * @param postiLiberi il nuovo numero di posti liberi
+     * <p>Il numero viene calcolato controllando lo stato di ogni posto,
+     * evitando di mantenere un contatore separato che potrebbe non essere
+     * sincronizzato con lo stato reale dei posti.</p>
+     *
+     * @return numero di posti liberi
      */
-    public void setPostiLiberi(int postiLiberi) {
-        this.postiLiberi = postiLiberi;
+    public int getPostiLiberi() {
+
+        int liberi = 0;
+
+        for (Posto posto : posti) {
+            if (!posto.isOccupato()) {
+                liberi++;
+            }
+        }
+
+        return liberi;
     }
 
     /**
@@ -137,7 +165,7 @@ public class Proiezione {
      * il titolo del film, la data e l'ora, il prezzo del biglietto
      * e il numero di posti liberi.</p>
      *
-     * @return una stringa contenente le informazioni della proiezione
+     * @return stringa contenente le informazioni della proiezione
      */
     @Override
     public String toString() {
@@ -146,7 +174,7 @@ public class Proiezione {
                 ", film=" + film.getTitolo() +
                 ", dataOra=" + dataOra +
                 ", prezzo=" + prezzoBiglietto +
-                ", postiLiberi=" + postiLiberi +
+                ", postiLiberi=" + getPostiLiberi() +
                 '}';
     }
 }

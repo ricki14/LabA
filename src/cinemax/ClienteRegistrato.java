@@ -7,12 +7,8 @@ import java.util.LinkedList;
 /**
  * Rappresenta un cliente registrato del sistema Cinemax.
  *
- * <p>La classe estende {@link Utente} e identifica un utente con ruolo
- * di cliente. Il cliente registrato può essere creato specificando
- * oppure omettendo la data di nascita.</p>
- *
- * <p>Gestisce la lista delle prenotazioni effettuate dall'utente tramite
- * le funzionalità di creazione, visualizzazione, modifica ed eliminazione.</p>
+ * <p>La classe estende {@link Utente} e gestisce le prenotazioni
+ * effettuate dal cliente.</p>
  *
  * @author Edoardo Carducci
  * @version 1.0
@@ -23,142 +19,387 @@ public class ClienteRegistrato extends Utente {
     private LinkedList<Prenotazione> prenotazioniCliente;
 
     /**
-     * Costruisce un nuovo cliente registrato specificando la data di nascita.
+     * Costruisce un nuovo cliente registrato.
      *
-     * <p>Il ruolo viene impostato automaticamente a {@link Ruolo#CLIENTE}.</p>
-     *
-     * @param nome          il nome del cliente
-     * @param cognome       il cognome del cliente
-     * @param username      il nome utente utilizzato per l'accesso
-     * @param password      la password utilizzata per l'accesso
-     * @param dataDiNascita la data di nascita del cliente
-     * @param domicilio     il domicilio del cliente
-     * @param ruolo         il ruolo dell'utente
+     * @param nome nome del cliente
+     * @param cognome cognome del cliente
+     * @param username username del cliente
+     * @param password password del cliente
+     * @param dataDiNascita data di nascita
+     * @param domicilio domicilio del cliente
+     * @param ruolo ruolo dell'utente
      */
-    public ClienteRegistrato(String nome, String cognome, String username,
-                             String password, LocalDate dataDiNascita,
-                             Domicilio domicilio, Ruolo ruolo) {
-        super(nome, cognome, username, password, dataDiNascita, domicilio, Ruolo.CLIENTE);
-        this.prenotazioniCliente = new LinkedList<Prenotazione>();
+    public ClienteRegistrato(
+            String nome,
+            String cognome,
+            String username,
+            String password,
+            LocalDate dataDiNascita,
+            Domicilio domicilio,
+            Ruolo ruolo) {
+
+        super(
+                nome,
+                cognome,
+                username,
+                password,
+                dataDiNascita,
+                domicilio,
+                Ruolo.CLIENTE
+        );
+
+        prenotazioniCliente =
+                new LinkedList<>();
     }
 
     /**
-     * Costruisce un nuovo cliente registrato senza specificare la data di nascita.
+     * Costruisce un cliente registrato senza data di nascita.
      *
-     * <p>Il ruolo viene impostato automaticamente a {@link Ruolo#CLIENTE}.</p>
-     *
-     * @param nome      il nome del cliente
-     * @param cognome   il cognome del cliente
-     * @param username  il nome utente utilizzato per l'accesso
-     * @param password  la password utilizzata per l'accesso
-     * @param domicilio il domicilio del cliente
-     * @param ruolo     il ruolo dell'utente
+     * @param nome nome del cliente
+     * @param cognome cognome del cliente
+     * @param username username del cliente
+     * @param password password del cliente
+     * @param domicilio domicilio del cliente
+     * @param ruolo ruolo dell'utente
      */
-    public ClienteRegistrato(String nome, String cognome, String username,
-                             String password, Domicilio domicilio,
-                             Ruolo ruolo) {
-        super(nome, cognome, username, password, domicilio, Ruolo.CLIENTE);
-        this.prenotazioniCliente = new LinkedList<Prenotazione>();
+    public ClienteRegistrato(
+            String nome,
+            String cognome,
+            String username,
+            String password,
+            Domicilio domicilio,
+            Ruolo ruolo) {
+
+        super(
+                nome,
+                cognome,
+                username,
+                password,
+                domicilio,
+                Ruolo.CLIENTE
+        );
+
+        prenotazioniCliente =
+                new LinkedList<>();
     }
 
     /**
-     * Visualizza la lista delle prenotazioni attive a nome del cliente.
+     * Restituisce le prenotazioni del cliente.
      *
-     * @return Una stringa contenente l'elenco delle prenotazioni o un messaggio se non ve ne sono.
+     * @return lista delle prenotazioni
+     */
+    public LinkedList<Prenotazione> getPrenotazioniCliente() {
+        return prenotazioniCliente;
+    }
+
+    /**
+     * Visualizza le prenotazioni del cliente.
+     *
+     * @return stringa contenente le prenotazioni
      */
     public String visualizzaPrenotazione() {
-        if (prenotazioniCliente == null || prenotazioniCliente.isEmpty()) {
+
+        if (prenotazioniCliente == null
+                || prenotazioniCliente.isEmpty()) {
             return "Nessuna prenotazione trovata";
         }
-        String prov = "";
-        for (Prenotazione tmp : prenotazioniCliente) {
-            prov = prov + tmp.toString() + " | \n";
+
+        StringBuilder risultato =
+                new StringBuilder();
+
+        for (Prenotazione prenotazione :
+                prenotazioniCliente) {
+
+            risultato.append(
+                    prenotazione
+            );
+            risultato.append(" | \n");
         }
-        return "Prenotazioni a nome " + this.getNome() + " " + this.getCognome() + ": " + prov;
+
+        return "Prenotazioni a nome "
+                + getNome()
+                + " "
+                + getCognome()
+                + ": "
+                + risultato;
     }
 
     /**
-     * Crea e aggiunge una nuova prenotazione alla lista del cliente.
+     * Crea una nuova prenotazione.
      *
-     * @param proiezione     la proiezione da prenotare
-     * @param postiPrenotati i posti selezionati
-     * @return Esito dell'operazione di prenotazione.
+     * <p>Prima della creazione viene controllato che tutti i posti
+     * appartengano alla proiezione e che siano ancora liberi.</p>
+     *
+     * @param proiezione proiezione da prenotare
+     * @param postiPrenotati posti selezionati
+     * @return esito dell'operazione
      */
-    public String creaPrenotazione(Proiezione proiezione, LinkedList<Posto> postiPrenotati) {
-        if (proiezione == null || postiPrenotati == null || postiPrenotati.isEmpty()) {
+    public String creaPrenotazione(
+            Proiezione proiezione,
+            LinkedList<Posto> postiPrenotati) {
+
+        if (proiezione == null
+                || postiPrenotati == null
+                || postiPrenotati.isEmpty()) {
+
             return "Operazione non riuscita: proiezione o posti non validi";
         }
-        Prenotazione nuovaPrenotazione = new Prenotazione(this, proiezione, postiPrenotati);
-        this.prenotazioniCliente.add(nuovaPrenotazione);
-        return "Prenotazione " + nuovaPrenotazione.getIdPrenotazione() + " completata";
+
+        for (Posto posto : postiPrenotati) {
+
+            if (!proiezione.getPosti().contains(posto)) {
+                return "Operazione non riuscita: posto non appartenente alla proiezione";
+            }
+
+            if (posto.isOccupato()) {
+                return "Operazione non riuscita: uno dei posti selezionati è già occupato";
+            }
+        }
+
+        Prenotazione nuovaPrenotazione =
+                new Prenotazione(
+                        this,
+                        proiezione,
+                        postiPrenotati
+                );
+
+        prenotazioniCliente.add(
+                nuovaPrenotazione
+        );
+
+        return "Prenotazione "
+                + nuovaPrenotazione.getIdPrenotazione()
+                + " completata";
     }
 
     /**
-     * Modifica la data/ora di una prenotazione esistente cercandone una nuova valida nel programma del cinema.
+     * Modifica la data e l'ora di una prenotazione.
      *
-     * @param modPrenotazione  la prenotazione da modificare
-     * @param nuovaDataOra     la nuova data e ora richieste
-     * @param programmazione   il palinsesto delle proiezioni
-     * @return true se la modifica va a buon fine, false altrimenti.
+     * <p>Vengono controllate sia la data della prenotazione attuale
+     * sia la nuova data. Prima di liberare i posti della vecchia
+     * proiezione viene inoltre verificata la disponibilità degli
+     * stessi posti nella nuova proiezione.</p>
+     *
+     * @param modPrenotazione prenotazione da modificare
+     * @param nuovaDataOra nuova data e ora
+     * @param programmazione programmazione del cinema
+     * @return {@code true} se la modifica è riuscita
      */
-    public boolean modificaPrenotazione(Prenotazione modPrenotazione, LocalDateTime nuovaDataOra,
-                                        ProgrammazioneCinema programmazione) {
+    public boolean modificaPrenotazione(
+            Prenotazione modPrenotazione,
+            LocalDateTime nuovaDataOra,
+            ProgrammazioneCinema programmazione) {
 
-        if (nuovaDataOra.isBefore(LocalDateTime.now())) {
-            System.out.println("Non è possibile cambiare la data attuale con una nuova data precedente a data odierna");
+        if (modPrenotazione == null
+                || !prenotazioniCliente.contains(modPrenotazione)) {
+
+            System.out.println(
+                    "La prenotazione non è presente tra le tue prenotazioni."
+            );
             return false;
         }
 
-        if (modPrenotazione == null || !prenotazioniCliente.contains(modPrenotazione)) {
-            System.out.println("La prenotazione che si vuole modificare non è presente tra le tue prenotazioni!");
+        LocalDateTime vecchiaData =
+                modPrenotazione
+                        .getProiezione()
+                        .getDataOra();
+
+        LocalDateTime adesso =
+                LocalDateTime.now();
+
+        if (vecchiaData.isBefore(adesso)) {
+
+            System.out.println(
+                    "Non è possibile modificare una prenotazione "
+                            + "per una proiezione già iniziata."
+            );
+            return false;
+        }
+
+        if (nuovaDataOra == null
+                || nuovaDataOra.isBefore(adesso)) {
+
+            System.out.println(
+                    "La nuova data deve essere successiva alla data attuale."
+            );
             return false;
         }
 
         Proiezione nuovaProiezione = null;
 
-        for (Proiezione tmp : programmazione.getElencoProiezioni()) {
-            if (tmp.getFilm().getTitolo().equalsIgnoreCase(modPrenotazione.getProiezione().getFilm().getTitolo()) &&
-                    tmp.getDataOra().equals(nuovaDataOra)) {
-                nuovaProiezione = tmp;
+        for (Proiezione proiezione :
+                programmazione.getElencoProiezioni()) {
+
+            if (proiezione.getFilm()
+                    .getTitolo()
+                    .equalsIgnoreCase(
+                            modPrenotazione
+                                    .getProiezione()
+                                    .getFilm()
+                                    .getTitolo()
+                    )
+                    && proiezione.getDataOra()
+                    .equals(nuovaDataOra)) {
+
+                nuovaProiezione = proiezione;
                 break;
             }
         }
+
         if (nuovaProiezione == null) {
-            System.out.println("Nessuna proiezione del film " + modPrenotazione.getProiezione().getFilm().getTitolo() +
-                    " è disponibile nella data " + nuovaDataOra);
+
+            System.out.println(
+                    "Nessuna proiezione del film "
+                            + modPrenotazione
+                            .getProiezione()
+                            .getFilm()
+                            .getTitolo()
+                            + " è disponibile nella data "
+                            + nuovaDataOra
+            );
+
             return false;
         }
 
+        if (nuovaProiezione
+                == modPrenotazione.getProiezione()) {
+
+            System.out.println(
+                    "La nuova proiezione coincide con quella attuale."
+            );
+
+            return false;
+        }
+
+        LinkedList<Posto> nuoviPosti =
+                new LinkedList<>();
+
+        for (Posto vecchioPosto :
+                modPrenotazione.getPostiPrenotati()) {
+
+            Posto nuovoPosto =
+                    trovaPosto(
+                            nuovaProiezione,
+                            vecchioPosto.getLetteraFila(),
+                            vecchioPosto.getNumeroPosto()
+                    );
+
+            if (nuovoPosto == null) {
+
+                System.out.println(
+                        "Il posto "
+                                + vecchioPosto.getLetteraFila()
+                                + vecchioPosto.getNumeroPosto()
+                                + " non esiste nella nuova proiezione."
+                );
+
+                return false;
+            }
+
+            if (nuovoPosto.isOccupato()) {
+
+                System.out.println(
+                        "Il posto "
+                                + nuovoPosto.getLetteraFila()
+                                + nuovoPosto.getNumeroPosto()
+                                + " non è disponibile nella nuova proiezione."
+                );
+
+                return false;
+            }
+
+            nuoviPosti.add(nuovoPosto);
+        }
+
         modPrenotazione.annullaPrenotazione();
-        Prenotazione nuovaPrenotazione = new Prenotazione(this, nuovaProiezione, modPrenotazione.getPostiPrenotati());
-        prenotazioniCliente.remove(modPrenotazione);
-        prenotazioniCliente.add(nuovaPrenotazione);
-        System.out.println("Prenotazione modificata con successo!");
+
+        Prenotazione nuovaPrenotazione =
+                new Prenotazione(
+                        this,
+                        nuovaProiezione,
+                        nuoviPosti,
+                        modPrenotazione.getIdPrenotazione(),
+                        modPrenotazione.getDataAcquisto()
+                );
+
+        prenotazioniCliente.remove(
+                modPrenotazione
+        );
+
+        prenotazioniCliente.add(
+                nuovaPrenotazione
+        );
+
+        System.out.println(
+                "Prenotazione modificata con successo!"
+        );
+
         return true;
     }
 
     /**
-     * Elimina una prenotazione del cliente, annullandola se la proiezione non è ancora avvenuta.
+     * Elimina una prenotazione del cliente.
      *
-     * @param eliminPren la prenotazione da eliminare
-     * @return true se l'eliminazione ha successo, false altrimenti.
+     * @param eliminPren prenotazione da eliminare
+     * @return {@code true} se l'eliminazione è riuscita
      */
-    public boolean eliminaPrenotazione(Prenotazione eliminPren) {
+    public boolean eliminaPrenotazione(
+            Prenotazione eliminPren) {
 
-        if (eliminPren == null || !prenotazioniCliente.contains(eliminPren)) {
-            System.out.println("La prenotazione che si vuole eliminare non è presente nella lista delle tue prenotazioni");
+        if (eliminPren == null
+                || !prenotazioniCliente.contains(eliminPren)) {
+
+            System.out.println(
+                    "La prenotazione non è presente nella lista."
+            );
             return false;
         }
 
-        LocalDateTime dataProiezione = eliminPren.getProiezione().getDataOra();
-        if (dataProiezione.isBefore(LocalDateTime.now())) {
-            System.out.println("Non è possibile eliminare la prenotazione per una proiezione già avvenuta.");
+        if (eliminPren.getProiezione()
+                .getDataOra()
+                .isBefore(LocalDateTime.now())) {
+
+            System.out.println(
+                    "Non è possibile eliminare la prenotazione "
+                            + "per una proiezione già avvenuta."
+            );
+
             return false;
         }
 
         eliminPren.annullaPrenotazione();
         prenotazioniCliente.remove(eliminPren);
-        System.out.println("La prenotazione è stata eliminata");
+
+        System.out.println(
+                "La prenotazione è stata eliminata."
+        );
+
         return true;
+    }
+
+    /**
+     * Cerca un posto in una proiezione.
+     *
+     * @param proiezione proiezione in cui cercare
+     * @param fila fila del posto
+     * @param numero numero del posto
+     * @return posto trovato oppure {@code null}
+     */
+    private Posto trovaPosto(
+            Proiezione proiezione,
+            char fila,
+            int numero) {
+
+        for (Posto posto :
+                proiezione.getPosti()) {
+
+            if (posto.getLetteraFila() == fila
+                    && posto.getNumeroPosto() == numero) {
+
+                return posto;
+            }
+        }
+
+        return null;
     }
 }
