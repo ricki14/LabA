@@ -25,10 +25,17 @@ public class CineMax {
         //caricamento proiezioni
         List<Proiezione> proiezioni = GestoreProiezioni.leggiProiezioni();
 
+        //caricamento prenotazioni
+        GestorePrenotazioni gestorePrenotazioni = new GestorePrenotazioni();
+        gestorePrenotazioni.caricaPrenotazioni(utenti, proiezioni);
+
+
         //menù principale
         boolean esci=false;
-        GestorePrenotazioni programmazione = new GestorePrenotazioni();
-        programmazione.caricaPrenotazioni("data/prenotazioni.csv");
+        ProgrammazioneCinema programmazione = new ProgrammazioneCinema();
+        for (Proiezione p : proiezioni) {
+            programmazione.aggiungiProiezione(p);
+        }
 
         while(!esci){
 
@@ -129,15 +136,21 @@ public class CineMax {
                                 switch(sceltaGuest){
                                     case 1 :
                                         //cerca proiezione
+                                        System.out.println("----CERCA UNA PROIEZIONE----");
                                         programmazione.cercaProiezione(scanner);
                                         break;
                                     case 2 :
                                         //visualizza dettagli proiezione
-
+                                        System.out.println("----VISUALIZZA DETTAGLI DI UNA PROIEZIONE----");
+                                        programmazione.cercaProiezione(scanner);
                                         break;
                                     case 3 :
                                         //torna al menù principale
                                         back = true;
+                                        break;
+                                    default:
+                                        System.out.println("Opzione non valida!. " +
+                                                "Inserisci un numero da 1 a 3 ");
                                         break;
                                 }
 
