@@ -6,43 +6,203 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gestisce la lettura e la scrittura delle proiezioni
+ * nel file CSV <code>data/proiezioni.csv</code>.
+ *
+ * <p>La classe fornisce metodi statici per caricare dal file
+ * le proiezioni presenti e per salvare su file una lista
+ * di proiezioni.</p>
+ *
+ * @author Riccardo Palomba
+ * @version 1.0
+ */
 public class GestoreProiezioni {
-    private static String file = "proiezioni.csv";
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static List<Proiezione> leggiProiezioni(){
+    /**
+     * Percorso del file CSV utilizzato per memorizzare
+     * le informazioni relative alle proiezioni.
+     */
+    private static String file = "data/proiezioni.csv";
+
+    /**
+     * Formato utilizzato per rappresentare data e ora
+     * delle proiezioni all'interno del file CSV.
+     *
+     * <p>Il formato utilizzato è
+     * <code>yyyy-MM-dd HH:mm:ss</code>.</p>
+     */
+    private static DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * Analizza una riga del file CSV e separa i singoli campi.
+     *
+     * <p>Il metodo considera la virgola come separatore dei campi,
+     * ma non considera come separatori le virgole presenti
+     * all'interno di una coppia di virgolette.</p>
+     *
+     * @param riga riga del file CSV da analizzare
+     * @return un array contenente i campi estratti dalla riga
+     */
+    private static String[] parseCsvLine(String riga) {
+
+        List<String> campi = new ArrayList<>();
+        StringBuilder campo = new StringBuilder();
+        boolean dentroVirgolette = false;
+
+        for (char c : riga.toCharArray()) {
+
+            if (c == '"') {
+                dentroVirgolette = !dentroVirgolette;
+
+            } else if (c == ',' && !dentroVirgolette) {
+                campi.add(campo.toString());
+                campo.setLength(0);
+
+            } else {
+                campo.append(c);
+            }
+        }
+
+        campi.add(campo.toString());
+
+        return campi.toArray(new String[0]);
+    }
+
+    /**
+     * Legge dal file CSV tutte le proiezioni presenti
+     * e le converte in oggetti {@link Proiezione}.
+     *
+     * <p>Per ogni riga del file vengono estratti i dati del film,
+     * la data e l'ora della proiezione e il prezzo del biglietto.
+     * I dati del film vengono utilizzati per creare un oggetto
+     * {@link Film}, successivamente associato alla relativa
+     * proiezione.</p>
+     *
+     * <p>La prima riga del file, contenente l'intestazione
+     * delle colonne, viene ignorata.</p>
+     *
+     * @return una lista contenente le proiezioni lette dal file;
+     *         la lista è vuota se non vengono trovate proiezioni
+     *         o se si verifica un errore durante la lettura
+     */
+    public static List<Proiezione> leggiProiezioni() {
+
         List<Proiezione> proiezioni = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+
+        try (BufferedReader br =
+                     new BufferedReader(new FileReader(file))) {
+
+            // Salta l'intestazione
             br.readLine();
+
             String riga;
+            int numeroRiga = 1;
 
-            while ((riga= br.readLine()) != null){
-                String[] dati = riga.split(",");
-                String data = dati[0].replace("\"","");
-                String titolo = dati[1].replace("\"","");
-                String genere = dati[2].replace("\"","");
-                String regista = dati[3].replace("\"","");
-                int anno = Integer.parseInt(dati[4]);
-                int durata = Integer.parseInt(dati[5]);
-                int etaMinima = Integer.parseInt(dati[6]);
-                double prezzo = Double.parseDouble(dati[7]);
-                LocalDateTime dataOra = LocalDateTime.parse(data,formatter);
+            while ((riga = br.readLine()) != null) {
 
-                Film film = new Film(titolo,genere,regista,anno,durata,etaMinima);
-                Proiezione proiezione = new Proiezione(String.valueOf(proiezioni.size()+1),film,dataOra,prezzo);
-                proiezioni.add(proiezione);
+                numeroRiga++;
+
+                try {
+
+                    String[] dati = parseCsvLine(riga);
+
+                    // Controlla che la riga abbia tutti i campi necessari
+                    if (dati.length != 8) {
+                        System.out.println(
+                                "Riga " + numeroRiga +
+                                        " non valida: numero di campi errato."
+                        );
+                        continue;
+                    }
+
+                    String data = dati[0].replace("\"", "");
+                    String titolo = dati[1].replace("\"", "");
+                    String genere = dati[2].replace("\"", "");
+                    String regista = dati[3].replace("\"", "");
+
+                    int anno = Integer.parseInt(dati[4]);
+                    int durata = Integer.parseInt(dati[5]);
+                    int etaMinima = Integer.parseInt(dati[6]);
+                    double prezzo = Double.parseDouble(dati[7]);
+
+                    LocalDateTime dataOra =
+                            LocalDateTime.parse(data, formatter);
+
+                    Film film = new Film(
+                            titolo,
+                            genere,
+                            regista,
+                            anno,
+                            durata,
+                            etaMinima
+                    );
+
+                    Proiezione proiezione = new Proiezione(
+                            String.valueOf(proiezioni.size() + 1),
+                            film,
+                            dataOra,
+                            prezzo
+                    );
+
+                    proiezioni.add(proiezione);
+
+                } catch (NumberFormatException e) {
+
+                    System.out.println(
+                            "Riga " + numeroRiga +
+                                    " non valida: numero non valido."
+                    );
+
+                } catch (java.time.format.DateTimeParseException e) {
+
+                    System.out.println(
+                            "Riga " + numeroRiga +
+                                    " non valida: data non valida."
+                    );
+
+                }
             }
 
         } catch (IOException e) {
-            System.out.println("Errore durante la lettura del file"+ e.getMessage());
+
+            System.out.println(
+                    "Errore durante la lettura del file: "
+                            + e.getMessage()
+            );
         }
+
+
         return proiezioni;
     }
 
-    public static void scriviProiezioni(List<Proiezione> proiezioni){
-        try(PrintWriter pw = new PrintWriter(new FileWriter(file))) {
-            pw.println("data_ora_proiezione,titolo_film,genere,regista,"+"anno,durata,eta_minima,prezzo_biglietto");
-            for (Proiezione p : proiezioni){
+    /**
+     * Scrive nel file CSV tutte le proiezioni contenute
+     * nella lista fornita.
+     *
+     * <p>Il file viene sovrascritto e viene inserita
+     * automaticamente l'intestazione delle colonne.</p>
+     *
+     * <p>Per ogni proiezione vengono salvati la data e l'ora,
+     * il titolo del film, il genere, il regista, l'anno,
+     * la durata, l'età minima e il prezzo del biglietto.</p>
+     *
+     * @param proiezioni lista delle proiezioni da salvare nel file
+     */
+    public static void scriviProiezioni(
+            List<Proiezione> proiezioni) {
+
+        try (PrintWriter pw =
+                     new PrintWriter(new FileWriter(file))) {
+
+            pw.println(
+                    "data_ora_proiezione,titolo_film,genere,regista,"
+                            + "anno,durata,eta_minima,prezzo_biglietto"
+            );
+
+            for (Proiezione p : proiezioni) {
+
                 Film film = p.getFilm();
 
                 pw.println(
@@ -74,9 +234,12 @@ public class GestoreProiezioni {
                                 p.getPrezzoBiglietto()
                 );
             }
-        }catch (IOException e){
-            System.out.println("Errore nella scrittura: "+e.getMessage());
-        }
 
+        } catch (IOException e) {
+            System.out.println(
+                    "Errore nella scrittura: "
+                            + e.getMessage()
+            );
+        }
     }
 }

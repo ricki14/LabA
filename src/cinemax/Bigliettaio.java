@@ -2,121 +2,299 @@ package cinemax;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * Rappresenta un utente con il ruolo di bigliettaio del sistema Cinemax.
  *
  * <p>Il bigliettaio può visualizzare le prenotazioni effettuate
- * nella giornata corrente, cercare una prenotazione tramite il
- * relativo identificativo ed effettuare il logout.</p>
+ * nella giornata corrente e cercare una prenotazione tramite
+ * diversi criteri.</p>
+ *
  * @author Riccardo Palomba
  * @version 1.0
  */
 public class Bigliettaio extends Utente {
 
     /**
-     * Costruisce un nuovo bigliettaio specificando anche la data di nascita.
+     * Costruisce un nuovo bigliettaio specificando la data di nascita.
      *
-     * @param nome il nome del bigliettaio
-     * @param cognome il cognome del bigliettaio
-     * @param username il nome utente utilizzato per l'accesso
-     * @param password la password utilizzata per l'accesso
-     * @param dataDiNascita la data di nascita del bigliettaio
-     * @param domicilio il domicilio del bigliettaio
+     * @param nome nome del bigliettaio
+     * @param cognome cognome del bigliettaio
+     * @param username username del bigliettaio
+     * @param password password del bigliettaio
+     * @param dataDiNascita data di nascita
+     * @param domicilio domicilio del bigliettaio
      */
-    public Bigliettaio(String nome, String cognome, String username,
-                       String password, LocalDate dataDiNascita,
-                       Domicilio domicilio) {
+    public Bigliettaio(
+            String nome,
+            String cognome,
+            String username,
+            String password,
+            LocalDate dataDiNascita,
+            Domicilio domicilio) {
 
-        super(nome, cognome, username, password,
-                dataDiNascita, domicilio, Ruolo.BIGLIETTAIO, false);
+        super(
+                nome,
+                cognome,
+                username,
+                password,
+                dataDiNascita,
+                domicilio,
+                Ruolo.BIGLIETTAIO,
+                false
+        );
     }
 
     /**
-     * Costruisce un nuovo bigliettaio senza specificare la data di nascita.
+     * Costruisce un nuovo bigliettaio senza data di nascita.
      *
-     * @param nome il nome del bigliettaio
-     * @param cognome il cognome del bigliettaio
-     * @param username il nome utente utilizzato per l'accesso
-     * @param password la password utilizzata per l'accesso
-     * @param domicilio il domicilio del bigliettaio
+     * @param nome nome del bigliettaio
+     * @param cognome cognome del bigliettaio
+     * @param username username del bigliettaio
+     * @param password password del bigliettaio
+     * @param domicilio domicilio del bigliettaio
      */
-    public Bigliettaio(String nome, String cognome, String username,
-                       String password, Domicilio domicilio) {
+    public Bigliettaio(
+            String nome,
+            String cognome,
+            String username,
+            String password,
+            Domicilio domicilio) {
 
-        super(nome, cognome, username, password,
-                domicilio, Ruolo.BIGLIETTAIO);
+        super(
+                nome,
+                cognome,
+                username,
+                password,
+                domicilio,
+                Ruolo.BIGLIETTAIO
+        );
     }
 
     /**
-     * Visualizza tutte le prenotazioni effettuate nella data odierna.
+     * Visualizza le prenotazioni effettuate nella data odierna.
      *
-     * <p>Il metodo confronta la data di acquisto di ogni prenotazione
-     * con la data corrente. Se vengono trovate prenotazioni, queste
-     * vengono visualizzate a video. In caso contrario viene mostrato
-     * un messaggio che indica l'assenza di prenotazioni.</p>
-     *
-     * @param prenotazioni lista delle prenotazioni da controllare
+     * @param prenotazioni lista delle prenotazioni
      */
-    public void visualizzaPrenotazioniOggi(ArrayList<Prenotazione> prenotazioni) {
+    public void visualizzaPrenotazioniOggi(
+            List<Prenotazione> prenotazioni) {
 
         LocalDate oggi = LocalDate.now();
         boolean trovata = false;
 
-        System.out.println("\n===== PRENOTAZIONI DI OGGI =====");
+        System.out.println(
+                "\n===== PRENOTAZIONI DI OGGI ====="
+        );
 
-        for (Prenotazione p : prenotazioni) {
+        for (Prenotazione prenotazione :
+                prenotazioni) {
 
-            if (p.getDataAcquisto().equals(oggi)) {
-                System.out.println(p);
+            if (prenotazione.getDataAcquisto()
+                    .equals(oggi)) {
+
+                System.out.println(
+                        prenotazione
+                );
+
                 trovata = true;
             }
         }
 
         if (!trovata) {
-            System.out.println("Nessuna prenotazione effettuata oggi.");
+            System.out.println(
+                    "Nessuna prenotazione effettuata oggi."
+            );
         }
     }
 
     /**
-     * Cerca una prenotazione tramite il suo identificativo.
+     * Cerca una prenotazione tramite ID.
      *
-     * <p>Il metodo richiede all'utente di inserire l'ID della prenotazione
-     * e confronta tale valore con gli identificativi presenti nella lista.
-     * La ricerca non distingue tra lettere maiuscole e minuscole.</p>
-     *
-     * @param prenotazioni lista delle prenotazioni in cui effettuare la ricerca
-     * @param scanner oggetto utilizzato per leggere l'ID inserito dall'utente
+     * @param utenti lista degli utenti del sistema
+     * @param scanner scanner utilizzato per l'input
      */
-    public void cercaPrenotazione(ArrayList<Prenotazione> prenotazioni,
-                                  Scanner scanner) {
+    public void cercaPerId(
+            List<Utente> utenti,
+            Scanner scanner) {
 
-        System.out.print("Inserisci l'ID della prenotazione: ");
+        System.out.print(
+                "Inserisci l'ID della prenotazione: "
+        );
+
+        String id =
+                scanner.nextLine();
+
+        GestorePrenotazioni gestore =
+                new GestorePrenotazioni();
+
+        Prenotazione prenotazione =
+                gestore.cercaPerId(
+                        utenti,
+                        id
+                );
+
+        if (prenotazione == null) {
+
+            System.out.println(
+                    "Prenotazione non trovata."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "\n===== PRENOTAZIONE TROVATA ====="
+        );
+
+        System.out.println(
+                prenotazione
+        );
+    }
+
+    /**
+     * Cerca le prenotazioni tramite nome e cognome del cliente.
+     *
+     * @param utenti lista degli utenti del sistema
+     * @param scanner scanner utilizzato per l'input
+     */
+    public void cercaPerNomeECognome(
+            List<Utente> utenti,
+            Scanner scanner) {
+
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Cognome: ");
+        String cognome = scanner.nextLine();
+
+        GestorePrenotazioni gestore =
+                new GestorePrenotazioni();
+
+        List<Prenotazione> risultati =
+                gestore.cercaPerNomeECognome(
+                        utenti,
+                        nome,
+                        cognome
+                );
+
+        if (risultati.isEmpty()) {
+
+            System.out.println(
+                    "Nessuna prenotazione trovata."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "\n===== PRENOTAZIONI TROVATE ====="
+        );
+
+        for (Prenotazione prenotazione :
+                risultati) {
+
+            System.out.println(
+                    prenotazione
+            );
+        }
+    }
+
+    /**
+     * Cerca una prenotazione tramite ID, nome e cognome.
+     *
+     * @param utenti lista degli utenti del sistema
+     * @param scanner scanner utilizzato per l'input
+     */
+    public void cercaPerIdNomeECognome(
+            List<Utente> utenti,
+            Scanner scanner) {
+
+        System.out.print("ID prenotazione: ");
         String id = scanner.nextLine();
 
-        for (Prenotazione p : prenotazioni) {
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
 
-            if (p.getIdPrenotazione().equalsIgnoreCase(id)) {
+        System.out.print("Cognome: ");
+        String cognome = scanner.nextLine();
 
-                System.out.println("\n===== PRENOTAZIONE TROVATA =====");
-                System.out.println(p);
+        GestorePrenotazioni gestore =
+                new GestorePrenotazioni();
+
+        Prenotazione prenotazione =
+                gestore.cercaPerIdNomeECognome(
+                        utenti,
+                        id,
+                        nome,
+                        cognome
+                );
+
+        if (prenotazione == null) {
+
+            System.out.println(
+                    "Prenotazione non trovata."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "\n===== PRENOTAZIONE TROVATA ====="
+        );
+
+        System.out.println(
+                prenotazione
+        );
+    }
+
+    /**
+     * Cerca una prenotazione tramite ID.
+     *
+     * @param prenotazioni lista delle prenotazioni
+     * @param scanner scanner utilizzato per l'input
+     */
+    public void cercaPrenotazione(
+            ArrayList<Prenotazione> prenotazioni,
+            Scanner scanner) {
+
+        System.out.print(
+                "Inserisci l'ID della prenotazione: "
+        );
+
+        String id = scanner.nextLine();
+
+        for (Prenotazione prenotazione :
+                prenotazioni) {
+
+            if (prenotazione.getIdPrenotazione()
+                    .equalsIgnoreCase(id)) {
+
+                System.out.println(
+                        "\n===== PRENOTAZIONE TROVATA ====="
+                );
+
+                System.out.println(
+                        prenotazione
+                );
+
                 return;
             }
         }
 
-        System.out.println("Prenotazione non trovata.");
+        System.out.println(
+                "Prenotazione non trovata."
+        );
     }
 
     /**
      * Effettua il logout del bigliettaio.
-     *
-     * <p>Imposta lo stato di accesso del bigliettaio a {@code false}
-     * e visualizza un messaggio di conferma.</p>
      */
     public void logout() {
-
         setLoggato(false);
-        System.out.println("Logout effettuato.");
+        System.out.println(
+                "Logout effettuato."
+        );
     }
 }

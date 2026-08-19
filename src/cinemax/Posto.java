@@ -67,6 +67,7 @@ public class Posto {
         occupato = true;
     }
 
+
     /**
      * Libera il posto.
      *

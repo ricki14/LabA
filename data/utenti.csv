@@ -1,1 +1,5 @@
-nome;cognome;username;password;dataDiNascita;domicilio;ruolo
+nome;cognome;username;password;dataDiNascita;via;numeroCivico;cap;citta;provincia;ruolo
+Riccardo;Palomba;rpalomba;48ac2fc9729a3393d48c05166765fd52c431788ea37a21014c2bc2f6eff05e36;2006-05-14;Via Monte generoso;55;21056;Induno Olona;Varese;CLIENTE
+biglietteria;CineMax;biglietteria;3bbf50da86850420370c3d1d76d13719d3cabd76ef300a5de5cc330f102a5750;2000-01-01;Via CineMax;1;00000;Varese;Varese;BIGLIETTAIO
+proiezioni;CineMax;proiezioni;3bbf50da86850420370c3d1d76d13719d3cabd76ef300a5de5cc330f102a5750;2000-01-01;Via CineMax;1;00000;Varese;Varese;PROIEZIONISTA
+prova;prova;prova;6258a5e0eb772911d4f92be5b5db0e14511edbe01d1d0ddd1d5a2cb9db9a56ba;2000-01-01;prova;1;11111;prova;prova;CLIENTE
