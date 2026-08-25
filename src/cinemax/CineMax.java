@@ -47,7 +47,7 @@ public class CineMax {
 
                 switch (numeroScelto) {
                     case 1: {
-                        System.out.println("----LOGIN----");
+                        System.out.println("\n----LOGIN----");
                         System.out.println("Inserisci username: ");
                         String username = scanner.nextLine();
                         System.out.println("Inserisci password: ");
@@ -76,7 +76,7 @@ public class CineMax {
 
                                     ClienteRegistrato cliente = (ClienteRegistrato) utenteLoggato;
 
-                                    System.out.println("----MENU' CLIENTE----");
+                                    System.out.println("\n----MENU' CLIENTE----");
                                     System.out.println("1. Cerca una Proiezione");
                                     System.out.println("2. Crea una prenotazione");
                                     System.out.println("3. Visualizza le tue prenotazioni");
@@ -309,6 +309,79 @@ public class CineMax {
                                         scanner.nextLine();
                                     }
                                 }
+                                else if (utenteLoggato instanceof Proiezionista){
+                                    //sotto-menù proiezionista
+
+                                    System.out.println("\n----MENU' PROIEZIONISTA----");
+                                    System.out.println("1. Aggiungi proiezione");
+                                    System.out.println("2. Modifica proiezione");
+                                    System.out.println("3. Elimina proiezione");
+                                    System.out.println("4. Logout");
+                                    System.out.println("Scegli un'opzione:");
+
+                                    if(scanner.hasNextInt()){
+                                        int sceltaProiezionista = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        switch (sceltaProiezionista){
+                                            case 1 :
+                                                //aggiunta proiezione
+                                                break;
+                                            case 2 :
+                                                //modifica proiezione
+                                                break;
+                                            case 3 :
+                                                //elimina proiezione
+                                                break;
+                                            case 4 :
+                                                //logout
+                                                break;
+                                            default:
+                                                System.out.println("Opzione non valida!");
+                                                break;
+                                        }
+                                    }
+
+
+                                } else {
+                                    //sotto-menù bigliettaio
+
+                                    System.out.println("\n----MENU' BIGLIETTAIO----");
+                                    System.out.println("1. Cerca proiezione");
+                                    System.out.println("2. Visualizza prenotazioni");
+                                    System.out.println("3. Logout");
+                                    System.out.println("Scegli un'opzione:");
+
+                                    if(scanner.hasNextInt()){
+                                        int sceltaBigliettaio = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        switch(sceltaBigliettaio){
+                                            case 1 :
+                                                //cerca proiezione
+                                                programmazione.cercaProiezione(scanner);
+                                                break;
+                                            case 2 :
+                                                //visualizza prenotazioni
+                                                Bigliettaio bigliettaio = (Bigliettaio) utenteLoggato;
+                                                ricercaPrenotazioniBigliettaio(bigliettaio, utenti, scanner);
+                                                break;
+                                            case 3 :
+                                                //logout
+                                                logout = true;
+                                                utenteLoggato.setLoggato(false);
+                                                System.out.println("Logout effettuato");
+                                                break;
+                                            default:
+                                                System.out.println("Opzione non valida!");
+                                                break;
+                                        }
+                                    } else {
+                                        System.out.println("Inserisci un numero valido!");
+                                        scanner.nextLine();
+                                    }
+
+                                }
                             }
                         }
 
@@ -365,7 +438,7 @@ public class CineMax {
                         //Continua come ospite
                         boolean back = false;
                         while(!back) {
-                            System.out.println("----MENU' OSPITE----");
+                            System.out.println("\n----MENU' OSPITE----");
                             System.out.println("1. Cerca una proiezione");
                             System.out.println("2. Visualizza dettagli di una proiezione");
                             System.out.println("3. Torna al menù principale");
@@ -418,5 +491,47 @@ public class CineMax {
         }
 
         scanner.close();
+    }
+
+    private static void ricercaPrenotazioniBigliettaio(Bigliettaio bigliettaio,
+                                                       List<Utente> utenti, Scanner scanner){
+        System.out.println("\n----VISUALIZZA / CERCA PRENOTAZIONI----");
+        System.out.println("1. Visualizza prenotazioni di oggi");
+        System.out.println("2. Cerca per ID");
+        System.out.println("3. Cerca per nome e cognome");
+        System.out.println("4. Cerca per ID, nome e cognome");
+        System.out.println("Scegli un'opzione: ");
+
+        if (!scanner.hasNextInt()) {
+            System.out.println("Inserisci un numero valido!");
+            scanner.nextLine();
+            return;
+        }
+
+        int sceltaRicerca = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (sceltaRicerca){
+            case 1 :
+                LinkedList<Prenotazione> listTuttePren = new LinkedList<>();
+                for (Utente tmp : utenti){
+                    if (tmp instanceof ClienteRegistrato)
+                        listTuttePren.addAll(((ClienteRegistrato) tmp).getPrenotazioniCliente());
+                }
+                bigliettaio.visualizzaPrenotazioniOggi(listTuttePren);
+                break;
+            case 2 :
+                bigliettaio.cercaPerId(utenti, scanner);
+                break;
+            case 3 :
+                bigliettaio.cercaPerNomeECognome(utenti, scanner);
+                break;
+            case 4 :
+                bigliettaio.cercaPerIdNomeECognome(utenti, scanner);
+                break;
+            default:
+                System.out.println("Opzione non valida!");
+                break;
+        }
     }
 }
