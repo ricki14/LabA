@@ -311,37 +311,7 @@ public class CineMax {
                                 }
                                 else if (utenteLoggato instanceof Proiezionista){
                                     //sotto-menù proiezionista
-
-                                    System.out.println("\n----MENU' PROIEZIONISTA----");
-                                    System.out.println("1. Aggiungi proiezione");
-                                    System.out.println("2. Modifica proiezione");
-                                    System.out.println("3. Elimina proiezione");
-                                    System.out.println("4. Logout");
-                                    System.out.println("Scegli un'opzione:");
-
-                                    if(scanner.hasNextInt()){
-                                        int sceltaProiezionista = scanner.nextInt();
-                                        scanner.nextLine();
-
-                                        switch (sceltaProiezionista){
-                                            case 1 :
-                                                //aggiunta proiezione
-                                                break;
-                                            case 2 :
-                                                //modifica proiezione
-                                                break;
-                                            case 3 :
-                                                //elimina proiezione
-                                                break;
-                                            case 4 :
-                                                //logout
-                                                break;
-                                            default:
-                                                System.out.println("Opzione non valida!");
-                                                break;
-                                        }
-                                    }
-
+                                    gestioneMenuProiezionista((Proiezionista) utenteLoggato, proiezioni,scanner);
 
                                 } else {
                                     //sotto-menù bigliettaio
@@ -532,6 +502,217 @@ public class CineMax {
             default:
                 System.out.println("Opzione non valida!");
                 break;
+        }
+    }
+
+    private static void gestioneMenuProiezionista(Proiezionista proiezionista,
+                                                  List<Proiezione> proiezioni, Scanner scanner) {
+        System.out.println("\n----MENU' PROIEZIONISTA----");
+        System.out.println("1. Aggiungi proiezione");
+        System.out.println("2. Modifica proiezione");
+        System.out.println("3. Elimina proiezione");
+        System.out.println("4. Logout");
+        System.out.println("Scegli un'opzione:");
+
+        if (scanner.hasNextInt()) {
+            int sceltaProiezionista = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (sceltaProiezionista) {
+                case 1:
+                    //aggiunta proiezione
+                    System.out.println("\n----AGGIUNGI PROIEZIONE----");
+
+                    System.out.println("Titolo del film: ");
+                    String titolo = scanner.nextLine();
+
+                    System.out.println("Genere: ");
+                    String genere = scanner.nextLine();
+
+                    System.out.println("Regista: ");
+                    String regista = scanner.nextLine();
+
+                    System.out.print("Anno di uscita: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Anno non valido!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int anno = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Durata del film (in minuti): ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Durata non valida!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int durata = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Età minima richiesta: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Età minima non valida!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int etaMinima = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("ID proiezione: ");
+                    String idProiezione = scanner.nextLine();
+
+                    System.out.print("Prezzo biglietto: ");
+                    if (!scanner.hasNextDouble()) {
+                        System.out.println("Prezzo non valido!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    double prezzo = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    System.out.print("Inserisci data e ora (AAAA-MM-GG HH:MM): ");
+                    String dataOraString = scanner.nextLine();
+                    LocalDateTime dataOra;
+                    try {
+                        dataOra = LocalDateTime.parse(dataOraString.replace(" ", "T"));
+                    } catch (Exception e) {
+                        System.out.println("Formato data non valido!");
+                        break;
+                    }
+
+                    Film filmDaAggiungere = new Film(titolo, genere, regista, anno, durata, etaMinima);
+                    Proiezione nuovaProiezione = new Proiezione(idProiezione, filmDaAggiungere, dataOra, prezzo);
+
+                    boolean aggiunta = proiezionista.aggiungiProiezioni(nuovaProiezione, proiezioni);
+                    if (aggiunta) {
+                        System.out.println("Proiezione aggiunta con successo!");
+                    }
+                    break;
+                case 2:
+                    //modifica proiezione
+                    System.out.println("\n----MODIFICA PROIEZIONE----");
+
+                    if (proiezioni.isEmpty()) {
+                        System.out.println("Nessuna proiezione disponibile da modificare.");
+                        break;
+                    }
+
+                    for (int i = 0; i < proiezioni.size(); i++) {
+                        Proiezione p = proiezioni.get(i);
+                        System.out.println((i + 1) + ") ID: " + p.getId() + " - " + p.getFilm().getTitolo()
+                                + " | Data: " + p.getDataOra() + " | Prezzo: " + p.getPrezzoBiglietto() + "€");
+                    }
+
+                    System.out.print("Seleziona il numero della proiezione da modificare: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Numero non valido!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int indiceProiezDaMod = scanner.nextInt() - 1;
+                    scanner.nextLine();
+
+                    if (indiceProiezDaMod < 0 || indiceProiezDaMod >= proiezioni.size()) {
+                        System.out.println("Proiezione non valida!");
+                        break;
+                    }
+
+                    Proiezione proiezioneDaModificare = proiezioni.get(indiceProiezDaMod);
+
+                    System.out.println("\nChe cosa vuoi modificare?");
+                    System.out.println("1. Data e Ora");
+                    System.out.println("2. Prezzo del biglietto");
+                    System.out.print("Scegli un'opzione: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Opzione non valida!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int sceltaModifica = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (sceltaModifica){
+                        case 1 :
+                            System.out.print("Inserisci la nuova data e ora (AAAA-MM-GG HH:MM): ");
+                            String nuovaDataString = scanner.nextLine();
+                            LocalDateTime nuovaData;
+                            try {
+                                nuovaData = LocalDateTime.parse(nuovaDataString.replace(" ", "T"));
+                            } catch (Exception e) {
+                                System.out.println("Formato data non valido!");
+                                break;
+                            }
+
+                            boolean dataCambiata = proiezionista.cambiaData(proiezioneDaModificare,
+                                                                            proiezioni, nuovaData);
+                            if (dataCambiata) {
+                                System.out.println("Data e ora aggiornate con successo!");
+                            }
+                            break;
+                        case 2 :
+                            System.out.print("Inserisci il nuovo prezzo: ");
+                            if (!scanner.hasNextDouble()) {
+                                System.out.println("Prezzo non valido!");
+                                scanner.nextLine();
+                                break;
+                            }
+                            double nuovoPrezzo = scanner.nextDouble();
+                            scanner.nextLine();
+
+                            proiezioneDaModificare.setPrezzoBiglietto(nuovoPrezzo);
+                            GestoreProiezioni.scriviProiezioni(proiezioni);
+                            System.out.println("Prezzo aggiornato e salvato con successo!");
+                            break;
+                        default:
+                            System.out.println("Scelta non valida!");
+                            break;
+                    }
+
+                    break;
+                case 3:
+                    //elimina proiezione
+                    System.out.println("\n----ELIMINA PROIEZIONE----");
+
+                    if(proiezioni.isEmpty()){
+                        System.out.println("Nessuna proiezione presente");
+                        break;
+                    }
+
+                    for(int i=0; i<proiezioni.size(); i++){
+                        Proiezione p = proiezioni.get(i);
+                        System.out.println((i + 1) + ") " + p.getFilm().getTitolo() + " - " + p.getDataOra());
+                    }
+                    System.out.println("Seleziona la proiezione da eliminare: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Opzione non valida!");
+                        scanner.nextLine();
+                        break;
+                    }
+
+                    int indiceProiezDaElim = scanner.nextInt()-1;
+                    scanner.nextLine();
+
+                    if (indiceProiezDaElim < 0 || indiceProiezDaElim >= proiezioni.size()) {
+                        System.out.println("Proiezione non valida!");
+                        break;
+                    }
+
+                    Proiezione proiezioneDaEliminare = proiezioni.get(indiceProiezDaElim);
+                    proiezionista.eliminaProiezione(proiezioneDaEliminare, proiezioni);
+                    System.out.println("Proiezione eliminata con successo");
+                    break;
+                case 4:
+                    //logout
+                    proiezionista.logout();
+                    System.out.println("Logout effettuato");
+                    break;
+                default:
+                    System.out.println("Opzione non valida!");
+                    break;
+            }
         }
     }
 }
