@@ -77,6 +77,10 @@ public class Posto {
         occupato = false;
     }
 
+    public void setOccupato(boolean occupato) {
+        this.occupato = occupato;
+    }
+
     /**
      * Restituisce una rappresentazione testuale del posto,
      * indicando la fila, il numero e lo stato di occupazione.

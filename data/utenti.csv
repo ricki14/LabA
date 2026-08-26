@@ -3,3 +3,8 @@ Riccardo;Palomba;rpalomba;48ac2fc9729a3393d48c05166765fd52c431788ea37a21014c2bc2
 biglietteria;CineMax;biglietteria;3bbf50da86850420370c3d1d76d13719d3cabd76ef300a5de5cc330f102a5750;2000-01-01;Via CineMax;1;00000;Varese;Varese;BIGLIETTAIO
 proiezioni;CineMax;proiezioni;3bbf50da86850420370c3d1d76d13719d3cabd76ef300a5de5cc330f102a5750;2000-01-01;Via CineMax;1;00000;Varese;Varese;PROIEZIONISTA
 prova;prova;prova;6258a5e0eb772911d4f92be5b5db0e14511edbe01d1d0ddd1d5a2cb9db9a56ba;2000-01-01;prova;1;11111;prova;prova;CLIENTE
+Daniele;Rossetti;DanyRoss;0deaed6cd4d6db58a6230320f48b94ba183df1ae248f98253d9951db1f34dd86;2003-02-01;Via Ardena ;16a;21037;Lavena Ponte Tresa;VA;CLIENTE
+Francesco;Marino;marino;6adb19dbe2a96317a3a3410090396f3cd2c8166eb0591896f8f1b22de08d6781;1985-04-01;Via Giuseppe Verdi;2;21050;Varese;VA;BIGLIETTAIO
+Lorenzo;Bodio;Bodiox;ecae94954bcb80455a37b9787514239bc09ce34c7d3e35dae91091a85fd7288c;2001-09-11;Via Novembre;3;21050;Varese;VA;BIGLIETTAIO
+Andrea;Soldati;solda;57272692f62e8c70e250a351b43445e569eb95b45189b3781c025b628b2606bc;2015-01-05;Via Brombeis;5;80100;Napoli;NA;BIGLIETTAIO
+oliver;munger;olly;606841f78cebe9f97424c4a3bce5b9e381bbb0feed31ce9bdaae8956e63e1618;2012-12-12;via sassi;12;12321;monaco;mn;PROIEZIONISTA

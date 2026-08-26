@@ -145,6 +145,16 @@ public class ClienteRegistrato extends Utente {
             return "Operazione non riuscita: proiezione o posti non validi";
         }
 
+        for (int i = 0; i< postiPrenotati.size(); i++) {
+            for (int j = i+1; j <postiPrenotati.size() ; j++) {
+                Posto p1 = postiPrenotati.get(i);
+                Posto p2 = postiPrenotati.get(j);
+                if (p1.equals(p2) || p1.getLetteraFila() == p2.getLetteraFila() && p1.getNumeroPosto() == p2.getNumeroPosto()){
+                    return "Impossibile prenotare posto. Un posto selezionato è già occupatp";
+                }
+            }
+        }
+
         for (Posto posto : postiPrenotati) {
 
             if (!proiezione.getPosti().contains(posto)) {
@@ -162,6 +172,9 @@ public class ClienteRegistrato extends Utente {
                         proiezione,
                         postiPrenotati
                 );
+        for (Posto posto: postiPrenotati){
+            posto.setOccupato(true);
+        }
 
         prenotazioniCliente.add(
                 nuovaPrenotazione

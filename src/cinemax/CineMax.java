@@ -139,12 +139,7 @@ public class CineMax {
 
                                                 for (int i = 0; i < numPosti; i++) {
                                                     System.out.println("Posto " + (i + 1) + " - Inserisci Fila (es. A):");
-                                                    String filaStr = scanner.nextLine().trim().toUpperCase();
-                                                    if (filaStr.isEmpty()) {
-                                                        postiValidi = false;
-                                                        break;
-                                                    }
-                                                    char fila = filaStr.charAt(0);
+                                                    char fila = leggiFilaValida(scanner);
 
                                                     System.out.println("Posto " + (i + 1) + " - Inserisci Numero posto:");
                                                     if (!scanner.hasNextInt()) {
@@ -208,7 +203,7 @@ public class CineMax {
                                                 }
 
                                                 System.out.println(
-                                                        "Seleziona il numero della prenotazione da eliminare:"
+                                                        "Seleziona il numero della prenotazione da modificare:"
                                                 );
 
                                                 if (!scanner.hasNextInt()) {
@@ -311,7 +306,7 @@ public class CineMax {
                                 }
                                 else if (utenteLoggato instanceof Proiezionista){
                                     //sotto-menù proiezionista
-                                    gestioneMenuProiezionista((Proiezionista) utenteLoggato, proiezioni,scanner);
+                                    logout=gestioneMenuProiezionista((Proiezionista) utenteLoggato, proiezioni,scanner);
 
                                 } else {
                                     //sotto-menù bigliettaio
@@ -357,6 +352,7 @@ public class CineMax {
 
 
                     }
+                    break;
                     case 2: {
                         System.out.println("---- REGISTRAZIONE ----");
                         System.out.println("Nome: ");
@@ -505,7 +501,7 @@ public class CineMax {
         }
     }
 
-    private static void gestioneMenuProiezionista(Proiezionista proiezionista,
+    private static boolean gestioneMenuProiezionista(Proiezionista proiezionista,
                                                   List<Proiezione> proiezioni, Scanner scanner) {
         System.out.println("\n----MENU' PROIEZIONISTA----");
         System.out.println("1. Aggiungi proiezione");
@@ -513,6 +509,8 @@ public class CineMax {
         System.out.println("3. Elimina proiezione");
         System.out.println("4. Logout");
         System.out.println("Scegli un'opzione:");
+
+        boolean logoutP=false;
 
         if (scanner.hasNextInt()) {
             int sceltaProiezionista = scanner.nextInt();
@@ -601,7 +599,7 @@ public class CineMax {
                     for (int i = 0; i < proiezioni.size(); i++) {
                         Proiezione p = proiezioni.get(i);
                         System.out.println((i + 1) + ") ID: " + p.getId() + " - " + p.getFilm().getTitolo()
-                                + " | Data: " + p.getDataOra() + " | Prezzo: " + p.getPrezzoBiglietto() + "€");
+                                + " | Data: " + p.getDataOra() + " | Prezzo: " + p.getPrezzoBiglietto() + "€"+ "| Durata: " + p.getFilm().getDurata());
                     }
 
                     System.out.print("Seleziona il numero della proiezione da modificare: ");
@@ -706,6 +704,7 @@ public class CineMax {
                     break;
                 case 4:
                     //logout
+                    logoutP = true;
                     proiezionista.logout();
                     System.out.println("Logout effettuato");
                     break;
@@ -713,6 +712,19 @@ public class CineMax {
                     System.out.println("Opzione non valida!");
                     break;
             }
+        }
+        return logoutP;
+    }
+    public static char leggiFilaValida(Scanner scanner) {
+        while (true) {
+            System.out.print("Inserisci la lettera della fila (es. A): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.length() == 1 && Character.isLetter(input.charAt(0))) {
+                return Character.toUpperCase(input.charAt(0));
+            }
+
+            System.out.println("Errore: inserisci soltanto una singola lettera per la fila!");
         }
     }
 }
