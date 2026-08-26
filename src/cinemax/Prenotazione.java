@@ -218,7 +218,8 @@ public class Prenotazione {
                 " | N° Posti: "
                 + postiPrenotati.size() +
                 " | Posti: " + posti +
-                " | Data: " + dataAcquisto +
+                " | Data di acquisto: " + dataAcquisto +
+                " | Data proiezione: " + proiezione.getDataOra()+
                 " | Totale: "
                 + costoTotale() + "€";
 

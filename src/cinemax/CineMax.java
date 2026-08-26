@@ -380,15 +380,15 @@ public class CineMax {
 
                         System.out.println("Data di nascita (AAAA-MM-GG): ");
                         LocalDate dataDiNascita = LocalDate.parse(scanner.nextLine());
-                        System.out.println("Via: ");
+                        System.out.println("Via (Facoltativo): ");
                         String via = scanner.nextLine();
-                        System.out.println("Numero civico: ");
+                        System.out.println("Numero civico (Facoltativo): ");
                         String numeroCivico = scanner.nextLine();
-                        System.out.println("CAP: ");
+                        System.out.println("CAP (Facoltativo): ");
                         String cap = scanner.nextLine();
-                        System.out.println("Città: ");
+                        System.out.println("Città (Facoltativo): ");
                         String citta=scanner.nextLine();
-                        System.out.println("Provincia: ");
+                        System.out.println("Provincia (Facoltativo): ");
                         String provincia = scanner.nextLine();
 
                         Domicilio domicilio = new Domicilio(via,numeroCivico,cap,citta,provincia);
@@ -557,7 +557,7 @@ public class CineMax {
                     int etaMinima = scanner.nextInt();
                     scanner.nextLine();
 
-                    System.out.print("ID proiezione: ");
+                    System.out.print("ID proiezione (4 cifre ES. 1111) : ");
                     String idProiezione = scanner.nextLine();
 
                     System.out.print("Prezzo biglietto: ");
