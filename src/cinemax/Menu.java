@@ -15,13 +15,8 @@ public class Menu {
     private final GestoreUtenti gestoreUtenti;
     private final GestorePrenotazioni gestorePrenotazioni;
 
-    public Menu(
-            Scanner scanner,
-            List<Utente> utenti,
-            List<Proiezione> proiezioni,
-            ProgrammazioneCinema programmazione,
-            GestoreUtenti gestoreUtenti,
-            GestorePrenotazioni gestorePrenotazioni) {
+    public Menu(Scanner scanner, List<Utente> utenti, List<Proiezione> proiezioni,
+            ProgrammazioneCinema programmazione, GestoreUtenti gestoreUtenti, GestorePrenotazioni gestorePrenotazioni) {
 
         this.scanner = scanner;
         this.utenti = utenti;
@@ -66,8 +61,8 @@ public class Menu {
     }
 
     private void stampaMenuPrincipale() {
-        System.out.println();
-        System.out.println("1. Login");
+
+        System.out.println("\n1. Login");
         System.out.println("2. Registrazione");
         System.out.println("3. Continua come ospite");
         System.out.println("4. Esci");
@@ -105,10 +100,10 @@ public class Menu {
     }
 
     private Utente trovaUtente(String username, String passwordHash) {
-        for (Utente utente : utenti) {
-            if (utente.getUsername().equals(username)
-                    && utente.getPassword().equals(passwordHash)) {
-                return utente;
+        for (Utente tmp : utenti) {
+            if (tmp.getUsername().equals(username)
+                    && tmp.getPassword().equals(passwordHash)) {
+                return tmp;
             }
         }
 
@@ -175,11 +170,7 @@ public class Menu {
 
         for (int i = 0; i < proiezioni.size(); i++) {
             Proiezione p = proiezioni.get(i);
-            System.out.println(
-                    (i + 1) + ") " +
-                            p.getFilm().getTitolo() + " - " +
-                            p.getDataOra()
-            );
+            System.out.println((i + 1) + ") " + p.getFilm().getTitolo() + " - " + p.getDataOra());
         }
 
         System.out.println("Seleziona il numero della proiezione:");
@@ -190,15 +181,15 @@ public class Menu {
             return;
         }
 
-        int indice = scanner.nextInt() - 1;
+        int indicePro = scanner.nextInt() - 1;
         scanner.nextLine();
 
-        if (indice < 0 || indice >= proiezioni.size()) {
+        if (indicePro < 0 || indicePro >= proiezioni.size()) {
             System.out.println("Proiezione non valida!");
             return;
         }
 
-        Proiezione proiezioneSelezionata = proiezioni.get(indice);
+        Proiezione proiezioneSelezionata = proiezioni.get(indicePro);
 
         System.out.println("Quanti posti vuoi prenotare?");
 
@@ -220,17 +211,11 @@ public class Menu {
         boolean postiValidi = true;
 
         for (int i = 0; i < numPosti; i++) {
-            System.out.println(
-                    "Posto " + (i + 1) +
-                            " - Inserisci Fila (es. A):"
-            );
+            System.out.println("Posto " + (i + 1) + " - Inserisci Fila (es. A): ");
 
             char fila = CineMax.leggiFilaValida(scanner);
 
-            System.out.println(
-                    "Posto " + (i + 1) +
-                            " - Inserisci Numero posto:"
-            );
+            System.out.println("Posto " + (i + 1) + " - Inserisci Numero posto:");
 
             if (!scanner.hasNextInt()) {
                 System.out.println("Numero non valido!");
@@ -244,18 +229,15 @@ public class Menu {
 
             Posto postoTrovato = null;
 
-            for (Posto posto : proiezioneSelezionata.getPosti()) {
-                if (posto.getLetteraFila() == fila
-                        && posto.getNumeroPosto() == numero) {
-                    postoTrovato = posto;
+            for (Posto tmp : proiezioneSelezionata.getPosti()) {
+                if (tmp.getLetteraFila() == fila && tmp.getNumeroPosto() == numero) {
+                    postoTrovato = tmp;
                     break;
                 }
             }
 
             if (postoTrovato == null) {
-                System.out.println(
-                        "Il posto " + fila + numero + " non esiste!"
-                );
+                System.out.println("Il posto " + fila + numero + " non esiste!");
                 postiValidi = false;
                 break;
             }
@@ -264,13 +246,11 @@ public class Menu {
         }
 
         if (!postiValidi) {
+            System.out.println("Prenotazione annullata a causa di un errore nei posti inseriti");
             return;
         }
 
-        String esito = cliente.creaPrenotazione(
-                proiezioneSelezionata,
-                postiDaPrenotare
-        );
+        String esito = cliente.creaPrenotazione(proiezioneSelezionata, postiDaPrenotare);
 
         System.out.println(esito);
 
@@ -299,9 +279,7 @@ public class Menu {
             System.out.println((i + 1) + ") " + prenotazioni.get(i));
         }
 
-        System.out.println(
-                "Seleziona il numero della prenotazione da modificare:"
-        );
+        System.out.println("Seleziona il numero della prenotazione da modificare:");
 
         if (!scanner.hasNextInt()) {
             System.out.println("Inserisci un numero valido.");
@@ -319,27 +297,19 @@ public class Menu {
 
         Prenotazione prenotazione = prenotazioni.get(scelta - 1);
 
-        System.out.println(
-                "Inserisci la nuova data e ora (AAAA-MM-GG HH:MM):"
-        );
+        System.out.println("Inserisci la nuova data e ora (AAAA-MM-GG HH:MM):");
 
         String nuovaDataString = scanner.nextLine();
         LocalDateTime nuovaDataOra;
 
         try {
-            nuovaDataOra = LocalDateTime.parse(
-                    nuovaDataString.replace(" ", "T")
-            );
+            nuovaDataOra = LocalDateTime.parse(nuovaDataString.replace(" ", "T"));
         } catch (Exception e) {
             System.out.println("Formato data non valido.");
             return;
         }
 
-        boolean modificata = cliente.modificaPrenotazione(
-                prenotazione,
-                nuovaDataOra,
-                programmazione
-        );
+        boolean modificata = cliente.modificaPrenotazione(prenotazione, nuovaDataOra, programmazione);
 
         if (modificata) {
             salvaPrenotazioni();
@@ -347,8 +317,7 @@ public class Menu {
     }
 
     private void eliminaPrenotazione(ClienteRegistrato cliente) {
-        LinkedList<Prenotazione> prenotazioni =
-                cliente.getPrenotazioniCliente();
+        LinkedList<Prenotazione> prenotazioni = cliente.getPrenotazioniCliente();
 
         if (prenotazioni.isEmpty()) {
             System.out.println("Non hai prenotazioni da eliminare");
@@ -359,9 +328,7 @@ public class Menu {
             System.out.println((i + 1) + ") " + prenotazioni.get(i));
         }
 
-        System.out.println(
-                "Seleziona il numero della prenotazione da eliminare:"
-        );
+        System.out.println("Seleziona il numero della prenotazione da eliminare:");
 
         if (!scanner.hasNextInt()) {
             System.out.println("Inserisci un numero valido.");
@@ -384,9 +351,9 @@ public class Menu {
     }
 
     private void menuProiezionista(Proiezionista proiezionista) {
-        boolean logout = false;
+        boolean logoutPro = false;
 
-        while (!logout) {
+        while (!logoutPro) {
             System.out.println("\n----MENU' PROIEZIONISTA----");
             System.out.println("1. Aggiungi proiezione");
             System.out.println("2. Modifica proiezione");
@@ -414,7 +381,7 @@ public class Menu {
                     eliminaProiezione(proiezionista);
                     break;
                 case 4:
-                    logout = true;
+                    logoutPro = true;
                     proiezionista.logout();
                     System.out.println("Logout effettuato");
                     break;
@@ -479,42 +446,23 @@ public class Menu {
         double prezzo = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.print(
-                "Inserisci data e ora (AAAA-MM-GG HH:MM): "
-        );
+        System.out.print("Inserisci data e ora (AAAA-MM-GG HH:MM): ");
 
         String dataOraString = scanner.nextLine();
         LocalDateTime dataOra;
 
         try {
-            dataOra = LocalDateTime.parse(
-                    dataOraString.replace(" ", "T")
-            );
+            dataOra = LocalDateTime.parse(dataOraString.replace(" ", "T"));
         } catch (Exception e) {
             System.out.println("Formato data non valido!");
             return;
         }
 
-        Film film = new Film(
-                titolo,
-                genere,
-                regista,
-                anno,
-                durata,
-                etaMinima
-        );
+        Film film = new Film(titolo, genere, regista, anno, durata, etaMinima);
 
-        Proiezione nuovaProiezione = new Proiezione(
-                idProiezione,
-                film,
-                dataOra,
-                prezzo
-        );
+        Proiezione nuovaProiezione = new Proiezione(idProiezione, film, dataOra, prezzo);
 
-        boolean aggiunta = proiezionista.aggiungiProiezioni(
-                nuovaProiezione,
-                proiezioni
-        );
+        boolean aggiunta = proiezionista.aggiungiProiezioni(nuovaProiezione, proiezioni);
 
         if (aggiunta) {
             System.out.println("Proiezione aggiunta con successo!");
@@ -533,9 +481,7 @@ public class Menu {
 
         stampaProiezioni();
 
-        System.out.print(
-                "Seleziona il numero della proiezione da modificare: "
-        );
+        System.out.print("Seleziona il numero della proiezione da modificare: ");
 
         if (!scanner.hasNextInt()) {
             System.out.println("Numero non valido!");
@@ -583,32 +529,22 @@ public class Menu {
             Proiezionista proiezionista,
             Proiezione proiezione) {
 
-        System.out.print(
-                "Inserisci la nuova data e ora (AAAA-MM-GG HH:MM): "
-        );
+        System.out.print("Inserisci la nuova data e ora (AAAA-MM-GG HH:MM): ");
 
         String nuovaDataString = scanner.nextLine();
         LocalDateTime nuovaData;
 
         try {
-            nuovaData = LocalDateTime.parse(
-                    nuovaDataString.replace(" ", "T")
-            );
+            nuovaData = LocalDateTime.parse(nuovaDataString.replace(" ", "T"));
         } catch (Exception e) {
             System.out.println("Formato data non valido!");
             return;
         }
 
-        boolean cambiata = proiezionista.cambiaData(
-                proiezione,
-                proiezioni,
-                nuovaData
-        );
+        boolean dataCambiata = proiezionista.cambiaData(proiezione, proiezioni, nuovaData);
 
-        if (cambiata) {
-            System.out.println(
-                    "Data e ora aggiornate con successo!"
-            );
+        if (dataCambiata) {
+            System.out.println("Data e ora aggiornate con successo!");
         }
     }
 
@@ -627,9 +563,7 @@ public class Menu {
         proiezione.setPrezzoBiglietto(nuovoPrezzo);
         GestoreProiezioni.scriviProiezioni(proiezioni);
 
-        System.out.println(
-                "Prezzo aggiornato e salvato con successo!"
-        );
+        System.out.println("Prezzo aggiornato e salvato con successo!");
     }
 
     private void eliminaProiezione(Proiezionista proiezionista) {
@@ -642,16 +576,10 @@ public class Menu {
 
         for (int i = 0; i < proiezioni.size(); i++) {
             Proiezione p = proiezioni.get(i);
-            System.out.println(
-                    (i + 1) + ") " +
-                            p.getFilm().getTitolo() + " - " +
-                            p.getDataOra()
-            );
+            System.out.println((i + 1) + ") " + p.getFilm().getTitolo() + " - " + p.getDataOra());
         }
 
-        System.out.println(
-                "Seleziona la proiezione da eliminare: "
-        );
+        System.out.println("Seleziona la proiezione da eliminare: ");
 
         if (!scanner.hasNextInt()) {
             System.out.println("Opzione non valida!");
@@ -669,14 +597,9 @@ public class Menu {
 
         Proiezione proiezione = proiezioni.get(indice);
 
-        proiezionista.eliminaProiezione(
-                proiezione,
-                proiezioni
-        );
+        proiezionista.eliminaProiezione(proiezione, proiezioni);
 
-        System.out.println(
-                "Proiezione eliminata con successo"
-        );
+        System.out.println("Proiezione eliminata con successo");
     }
 
     private void stampaProiezioni() {
@@ -957,9 +880,7 @@ public class Menu {
         try {
             gestorePrenotazioni.salvaPrenotazioni(utenti);
         } catch (Exception e) {
-            System.out.println(
-                    "Errore durante il salvataggio della prenotazione."
-            );
+            System.out.println("Errore durante il salvataggio della prenotazione.");
         }
     }
 
