@@ -849,11 +849,23 @@ public class Menu {
         System.out.println("Nome: ");
         String nome = scanner.nextLine();
 
+        if (!controllaInput(nome)) {
+            return;
+        }
+
         System.out.println("Cognome: ");
         String cognome = scanner.nextLine();
 
+        if (!controllaInput(cognome)) {
+            return;
+        }
+
         System.out.println("Username: ");
         String username = scanner.nextLine();
+
+        if (!controllaInput(username)) {
+            return;
+        }
 
         for (Utente utente : utenti) {
             if (utente.getUsername().equals(username)) {
@@ -884,17 +896,37 @@ public class Menu {
         System.out.println("Via (Facoltativo): ");
         String via = scanner.nextLine();
 
+        if (!controllaInput(via)) {
+            return;
+        }
+
         System.out.println("Numero civico (Facoltativo): ");
         String numeroCivico = scanner.nextLine();
+
+        if (!controllaInput(numeroCivico)) {
+            return;
+        }
 
         System.out.println("CAP (Facoltativo): ");
         String cap = scanner.nextLine();
 
+        if (!controllaInput(cap)) {
+            return;
+        }
+
         System.out.println("Città (Facoltativo): ");
         String citta = scanner.nextLine();
 
+        if (!controllaInput(citta)) {
+            return;
+        }
+
         System.out.println("Provincia (Facoltativo): ");
         String provincia = scanner.nextLine();
+
+        if (!controllaInput(provincia)) {
+            return;
+        }
 
         Domicilio domicilio = new Domicilio(
                 via,
@@ -929,5 +961,15 @@ public class Menu {
                     "Errore durante il salvataggio della prenotazione."
             );
         }
+    }
+
+    private static boolean controllaInput(String s){
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i)==';' || s.charAt(i)==','){
+                System.out.println("La stringa inserita contiente caratteri non validi");
+                return false;
+            }
+        }
+        return true;
     }
 }
