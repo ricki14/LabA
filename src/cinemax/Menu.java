@@ -6,15 +6,55 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Gestisce i menu e le principali interazioni dell'utente con il sistema CineMax.
+ *
+ * <p>La classe gestisce il menu principale e i menu specifici per ciascun
+ * tipo di utente, permettendo di effettuare operazioni come login,
+ * registrazione, gestione delle prenotazioni e gestione delle proiezioni.</p>
+ */
 public class Menu {
 
+    /**
+     * Scanner utilizzato per leggere gli input dell'utente.
+     */
     private final Scanner scanner;
+
+    /**
+     * Lista degli utenti registrati al sistema.
+     */
     private final List<Utente> utenti;
+
+    /**
+     * Lista delle proiezioni disponibili nel cinema.
+     */
     private final List<Proiezione> proiezioni;
+
+    /**
+     * Programmazione delle proiezioni del cinema.
+     */
     private final ProgrammazioneCinema programmazione;
+
+    /**
+     * Gestore degli utenti del sistema.
+     */
     private final GestoreUtenti gestoreUtenti;
+
+    /**
+     * Gestore delle prenotazioni del sistema.
+     */
     private final GestorePrenotazioni gestorePrenotazioni;
 
+    /**
+     * Costruisce il menu principale del sistema.
+     *
+     * @param scanner scanner utilizzato per leggere gli input
+     * @param utenti lista degli utenti registrati
+     * @param proiezioni lista delle proiezioni disponibili
+     * @param programmazione programmazione del cinema
+     * @param gestoreUtenti gestore degli utenti
+     * @param gestorePrenotazioni gestore delle prenotazioni
+     */
     public Menu(Scanner scanner, List<Utente> utenti, List<Proiezione> proiezioni,
             ProgrammazioneCinema programmazione, GestoreUtenti gestoreUtenti, GestorePrenotazioni gestorePrenotazioni) {
 
@@ -26,6 +66,12 @@ public class Menu {
         this.gestorePrenotazioni = gestorePrenotazioni;
     }
 
+    /**
+     * Avvia il menu principale dell'applicazione.
+     *
+     * <p>Permette all'utente di effettuare il login, registrarsi,
+     * continuare come ospite oppure uscire dall'applicazione.</p>
+     */
     public void avvia() {
         boolean esci = false;
 
@@ -60,6 +106,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Visualizza il menu principale dell'applicazione.
+     */
     private void stampaMenuPrincipale() {
 
         System.out.println("\n1. Login");
@@ -69,6 +118,13 @@ public class Menu {
         System.out.println("Scegli un'opzione: ");
     }
 
+    /**
+     * Gestisce la procedura di login dell'utente.
+     *
+     * <p>Richiede username e password, verifica le credenziali
+     * e, in caso di autenticazione corretta, avvia il menu
+     * corrispondente al tipo di utente.</p>
+     */
     private void gestisciLogin() {
         System.out.println("\n----LOGIN----");
         System.out.println("Inserisci username: ");
@@ -99,6 +155,14 @@ public class Menu {
         utenteLoggato.setLoggato(false);
     }
 
+    /**
+     * Cerca un utente nella lista utilizzando username e password cifrata.
+     *
+     * @param username username dell'utente da cercare
+     * @param passwordHash hash della password dell'utente
+     * @return l'utente corrispondente alle credenziali oppure {@code null}
+     *         se non viene trovato
+     */
     private Utente trovaUtente(String username, String passwordHash) {
         for (Utente tmp : utenti) {
             if (tmp.getUsername().equals(username)
@@ -110,6 +174,14 @@ public class Menu {
         return null;
     }
 
+    /**
+     * Gestisce il menu riservato ai clienti registrati.
+     *
+     * <p>Permette di cercare proiezioni, creare, visualizzare,
+     * modificare ed eliminare prenotazioni e effettuare il logout.</p>
+     *
+     * @param cliente cliente registrato che ha effettuato il login
+     */
     private void menuCliente(ClienteRegistrato cliente) {
         boolean logout = false;
 
@@ -158,6 +230,15 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce la creazione di una nuova prenotazione per un cliente.
+     *
+     * <p>Permette al cliente di selezionare una proiezione e i posti
+     * da prenotare, verificandone la validità prima di creare
+     * la prenotazione.</p>
+     *
+     * @param cliente cliente che effettua la prenotazione
+     */
     private void creaPrenotazione(ClienteRegistrato cliente) {
         System.out.println("----PRENOTA UNA PROIEZIONE----");
 
@@ -259,11 +340,24 @@ public class Menu {
         }
     }
 
+    /**
+     * Visualizza le prenotazioni effettuate dal cliente.
+     *
+     * @param cliente cliente di cui visualizzare le prenotazioni
+     */
     private void visualizzaPrenotazioni(ClienteRegistrato cliente) {
         System.out.println("----LE TUE PRENOTAZIONI----");
         System.out.println(cliente.visualizzaPrenotazione());
     }
 
+    /**
+     * Gestisce la modifica di una prenotazione del cliente.
+     *
+     * <p>Permette al cliente di selezionare una delle proprie
+     * prenotazioni e modificarne la data e l'ora.</p>
+     *
+     * @param cliente cliente proprietario della prenotazione
+     */
     private void modificaPrenotazione(ClienteRegistrato cliente) {
         LinkedList<Prenotazione> prenotazioni =
                 cliente.getPrenotazioniCliente();
@@ -316,6 +410,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Elimina una prenotazione appartenente al cliente.
+     *
+     * @param cliente cliente proprietario della prenotazione
+     */
     private void eliminaPrenotazione(ClienteRegistrato cliente) {
         LinkedList<Prenotazione> prenotazioni = cliente.getPrenotazioniCliente();
 
@@ -350,6 +449,14 @@ public class Menu {
         salvaPrenotazioni();
     }
 
+    /**
+     * Gestisce il menu riservato al proiezionista.
+     *
+     * <p>Permette di aggiungere, modificare ed eliminare proiezioni
+     * e di effettuare il logout.</p>
+     *
+     * @param proiezionista proiezionista che ha effettuato il login
+     */
     private void menuProiezionista(Proiezionista proiezionista) {
         boolean logoutPro = false;
 
@@ -390,6 +497,15 @@ public class Menu {
         }
     }
 
+    /**
+     * Permette al proiezionista di aggiungere una nuova proiezione.
+     *
+     * <p>Richiede i dati del film, della proiezione e del prezzo,
+     * crea gli oggetti necessari e aggiunge la nuova proiezione
+     * al sistema.</p>
+     *
+     * @param proiezionista proiezionista che aggiunge la proiezione
+     */
     private void aggiungiProiezione(Proiezionista proiezionista) {
         System.out.println("\n----AGGIUNGI PROIEZIONE----");
 
@@ -468,6 +584,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce la modifica di una proiezione esistente.
+     *
+     * @param proiezionista proiezionista che modifica la proiezione
+     */
     private void modificaProiezione(Proiezionista proiezionista) {
         System.out.println("\n----MODIFICA PROIEZIONE----");
 
@@ -524,6 +645,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Modifica la data e l'ora di una proiezione.
+     *
+     * @param proiezionista proiezionista che effettua la modifica
+     * @param proiezione proiezione di cui modificare data e ora
+     */
     private void modificaDataProiezione(
             Proiezionista proiezionista,
             Proiezione proiezione) {
@@ -547,6 +674,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Modifica il prezzo del biglietto di una proiezione.
+     *
+     * @param proiezione proiezione di cui modificare il prezzo
+     */
     private void modificaPrezzoProiezione(Proiezione proiezione) {
         System.out.print("Inserisci il nuovo prezzo: ");
 
@@ -565,6 +697,11 @@ public class Menu {
         System.out.println("Prezzo aggiornato e salvato con successo!");
     }
 
+    /**
+     * Elimina una proiezione dalla lista delle proiezioni disponibili.
+     *
+     * @param proiezionista proiezionista che effettua l'eliminazione
+     */
     private void eliminaProiezione(Proiezionista proiezionista) {
         System.out.println("\n----ELIMINA PROIEZIONE----");
 
@@ -601,6 +738,10 @@ public class Menu {
         System.out.println("Proiezione eliminata con successo");
     }
 
+    /**
+     * Stampa a video l'elenco delle proiezioni disponibili,
+     * mostrando ID, titolo, data, prezzo e durata.
+     */
     private void stampaProiezioni() {
         for (int i = 0; i < proiezioni.size(); i++) {
             Proiezione p = proiezioni.get(i);
@@ -616,6 +757,14 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce il menu riservato al bigliettaio.
+     *
+     * <p>Permette di cercare proiezioni, visualizzare e cercare
+     * prenotazioni ed effettuare il logout.</p>
+     *
+     * @param bigliettaio bigliettaio che ha effettuato il login
+     */
     private void menuBigliettaio(Bigliettaio bigliettaio) {
         boolean logoutBig = false;
 
@@ -652,6 +801,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce le diverse modalità di ricerca delle prenotazioni
+     * disponibili per il bigliettaio.
+     *
+     * @param bigliettaio bigliettaio che effettua la ricerca
+     */
     private void ricercaPrenotazioniBigliettaio(
             Bigliettaio bigliettaio) {
 
@@ -703,6 +858,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce il menu disponibile agli utenti ospiti.
+     *
+     * <p>L'ospite può cercare e visualizzare i dettagli delle
+     * proiezioni disponibili oppure tornare al menu principale.</p>
+     */
     private void menuOspite() {
         boolean back = false;
 
@@ -736,6 +897,13 @@ public class Menu {
         }
     }
 
+    /**
+     * Gestisce la registrazione di un nuovo cliente.
+     *
+     * <p>Richiede i dati personali, le credenziali e il domicilio
+     * del nuovo cliente, verificando la validità degli input e
+     * l'unicità dello username.</p>
+     */
     private void registraCliente() {
         System.out.println("---- REGISTRAZIONE ----");
 
@@ -828,6 +996,12 @@ public class Menu {
         System.out.println("Registrazione completata");
     }
 
+    /**
+     * Salva su file le prenotazioni presenti nel sistema.
+     *
+     * <p>In caso di errore durante il salvataggio, viene mostrato
+     * un messaggio informativo all'utente.</p>
+     */
     private void salvaPrenotazioni() {
         try {
             gestorePrenotazioni.salvaPrenotazioni(utenti);
@@ -836,6 +1010,14 @@ public class Menu {
         }
     }
 
+    /**
+     * Controlla che una stringa non contenga i caratteri utilizzati
+     * come separatori nei dati memorizzati.
+     *
+     * @param s stringa da controllare
+     * @return {@code true} se la stringa è valida, {@code false}
+     *         se contiene una virgola o un punto e virgola
+     */
     private static boolean controllaInput(String s){
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i)==';' || s.charAt(i)==','){

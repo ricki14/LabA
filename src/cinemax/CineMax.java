@@ -4,8 +4,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe principale dell'applicazione CineMax.
+ *
+ * <p>Si occupa di avviare il sistema, inizializzare i dati necessari
+ * al funzionamento del cinema e creare il menu principale dell'applicazione.</p>
+ */
 public class CineMax {
 
+    /**
+     * Metodo principale dell'applicazione.
+     *
+     * <p>Inizializza lo {@link Scanner}, carica gli utenti, le proiezioni
+     * e le prenotazioni, costruisce la programmazione del cinema e avvia
+     * il menu principale.</p>
+     *
+     * @param args argomenti passati da riga di comando
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -24,6 +39,12 @@ public class CineMax {
         scanner.close();
     }
 
+    /**
+     * Inizializza la lista degli utenti e carica gli utenti
+     * precedentemente registrati.
+     *
+     * @return lista degli utenti caricati
+     */
     private static LinkedList<Utente> inizializzaUtenti() {
         LinkedList<Utente> utenti = new LinkedList<>();
         GestoreUtenti gestoreUtenti = new GestoreUtenti(utenti);
@@ -31,16 +52,40 @@ public class CineMax {
         return utenti;
     }
 
+    /**
+     * Carica le proiezioni del cinema dai dati memorizzati.
+     *
+     * @return lista delle proiezioni disponibili
+     */
     private static List<Proiezione> inizializzaProiezioni() {
         return GestoreProiezioni.leggiProiezioni();
     }
 
+    /**
+     * Inizializza il gestore delle prenotazioni e carica
+     * le prenotazioni esistenti.
+     *
+     * @param utenti lista degli utenti del sistema
+     * @param proiezioni lista delle proiezioni disponibili
+     * @return gestore delle prenotazioni inizializzato
+     */
     private static GestorePrenotazioni inizializzaPrenotazioni(List<Utente> utenti, List<Proiezione> proiezioni) {
         GestorePrenotazioni gestorePrenotazioni = new GestorePrenotazioni();
         gestorePrenotazioni.caricaPrenotazioni(utenti, proiezioni);
         return gestorePrenotazioni;
     }
 
+    /**
+     * Legge una lettera inserita dall'utente e la utilizza
+     * come identificativo della fila.
+     *
+     * <p>Il metodo continua a richiedere l'inserimento finché l'utente
+     * non fornisce una singola lettera. La lettera viene convertita
+     * automaticamente in maiuscolo.</p>
+     *
+     * @param scanner scanner utilizzato per leggere l'input dell'utente
+     * @return lettera maiuscola corrispondente alla fila inserita
+     */
     public static char leggiFilaValida(Scanner scanner) {
         while (true) {
             System.out.print("Inserisci la lettera della fila (es. A): ");
@@ -56,6 +101,13 @@ public class CineMax {
         }
     }
 
+    /**
+     * Inizializza la programmazione del cinema inserendo
+     * tutte le proiezioni disponibili.
+     *
+     * @param proiezioni lista delle proiezioni da inserire nella programmazione
+     * @return programmazione del cinema inizializzata
+     */
     private static ProgrammazioneCinema inizializzaProgrammazione(
             List<Proiezione> proiezioni) {
 
