@@ -618,9 +618,9 @@ public class Menu {
     }
 
     private void menuBigliettaio(Bigliettaio bigliettaio) {
-        boolean logout = false;
+        boolean logoutBig = false;
 
-        while (!logout) {
+        while (!logoutBig) {
             System.out.println("\n----MENU' BIGLIETTAIO----");
             System.out.println("1. Cerca proiezione");
             System.out.println("2. Visualizza prenotazioni");
@@ -644,7 +644,7 @@ public class Menu {
                     ricercaPrenotazioniBigliettaio(bigliettaio);
                     break;
                 case 3:
-                    logout = true;
+                    logoutBig = true;
                     bigliettaio.setLoggato(false);
                     System.out.println("Logout effettuato");
                     break;
@@ -677,21 +677,15 @@ public class Menu {
 
         switch (scelta) {
             case 1:
-                LinkedList<Prenotazione> tuttePrenotazioni =
-                        new LinkedList<>();
+                LinkedList<Prenotazione> tuttePrenotazioni = new LinkedList<>();
 
                 for (Utente utente : utenti) {
                     if (utente instanceof ClienteRegistrato) {
-                        tuttePrenotazioni.addAll(
-                                ((ClienteRegistrato) utente)
-                                        .getPrenotazioniCliente()
-                        );
+                        tuttePrenotazioni.addAll(((ClienteRegistrato) utente).getPrenotazioniCliente());
                     }
                 }
 
-                bigliettaio.visualizzaPrenotazioniOggi(
-                        tuttePrenotazioni
-                );
+                bigliettaio.visualizzaPrenotazioniOggi(tuttePrenotazioni);
                 break;
 
             case 2:
@@ -699,17 +693,11 @@ public class Menu {
                 break;
 
             case 3:
-                bigliettaio.cercaPerNomeECognome(
-                        utenti,
-                        scanner
-                );
+                bigliettaio.cercaPerNomeECognome(utenti, scanner);
                 break;
 
             case 4:
-                bigliettaio.cercaPerIdNomeECognome(
-                        utenti,
-                        scanner
-                );
+                bigliettaio.cercaPerIdNomeECognome(utenti, scanner);
                 break;
 
             default:
@@ -723,9 +711,7 @@ public class Menu {
         while (!back) {
             System.out.println("\n----MENU' OSPITE----");
             System.out.println("1. Cerca una proiezione");
-            System.out.println(
-                    "2. Visualizza dettagli di una proiezione"
-            );
+            System.out.println("2. Visualizza dettagli di una proiezione");
             System.out.println("3. Torna al menù principale");
             System.out.println("Scegli un'opzione: ");
 
@@ -740,16 +726,12 @@ public class Menu {
 
             switch (scelta) {
                 case 1:
-                    System.out.println(
-                            "----CERCA UNA PROIEZIONE----"
-                    );
+                    System.out.println("----CERCA UNA PROIEZIONE----");
                     programmazione.cercaProiezione(scanner);
                     break;
 
                 case 2:
-                    System.out.println(
-                            "----VISUALIZZA DETTAGLI DI UNA PROIEZIONE----"
-                    );
+                    System.out.println("----VISUALIZZA DETTAGLI DI UNA PROIEZIONE----");
                     programmazione.cercaProiezione(scanner);
                     break;
 
@@ -758,10 +740,7 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println(
-                            "Opzione non valida!. " +
-                                    "Inserisci un numero da 1 a 3 "
-                    );
+                    System.out.println("Opzione non valida!. Inserisci un numero da 1 a 3 ");
             }
         }
     }
@@ -800,17 +779,13 @@ public class Menu {
         System.out.println("Password: ");
         String password = scanner.nextLine();
 
-        String hashPassword =
-                PasswordUtil.hashPassword(password);
+        String hashPassword = PasswordUtil.hashPassword(password);
 
         LocalDate dataDiNascita;
 
         try {
-            System.out.println(
-                    "Data di nascita (AAAA-MM-GG): "
-            );
-            dataDiNascita =
-                    LocalDate.parse(scanner.nextLine());
+            System.out.println("Data di nascita (AAAA-MM-GG): ");
+            dataDiNascita = LocalDate.parse(scanner.nextLine());
         } catch (Exception e) {
             System.out.println("Data non valida.");
             return;
@@ -851,24 +826,10 @@ public class Menu {
             return;
         }
 
-        Domicilio domicilio = new Domicilio(
-                via,
-                numeroCivico,
-                cap,
-                citta,
-                provincia
-        );
+        Domicilio domicilio = new Domicilio(via, numeroCivico, cap, citta, provincia);
 
-        ClienteRegistrato nuovoCliente =
-                new ClienteRegistrato(
-                        nome,
-                        cognome,
-                        username,
-                        hashPassword,
-                        dataDiNascita,
-                        domicilio,
-                        Ruolo.CLIENTE
-                );
+        ClienteRegistrato nuovoCliente = new ClienteRegistrato(nome, cognome, username,
+                                hashPassword, dataDiNascita, domicilio, Ruolo.CLIENTE);
 
         utenti.add(nuovoCliente);
         gestoreUtenti.salvaUtenti();

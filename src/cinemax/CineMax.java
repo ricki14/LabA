@@ -17,14 +17,7 @@ public class CineMax {
         ProgrammazioneCinema programmazione = inizializzaProgrammazione(proiezioni);
         GestoreUtenti gestoreUtenti = new GestoreUtenti(utenti);
 
-        Menu menu = new Menu(
-                scanner,
-                utenti,
-                proiezioni,
-                programmazione,
-                gestoreUtenti,
-                gestorePrenotazioni
-        );
+        Menu menu = new Menu(scanner, utenti, proiezioni, programmazione, gestoreUtenti, gestorePrenotazioni);
 
         menu.avvia();
 
@@ -42,10 +35,7 @@ public class CineMax {
         return GestoreProiezioni.leggiProiezioni();
     }
 
-    private static GestorePrenotazioni inizializzaPrenotazioni(
-            List<Utente> utenti,
-            List<Proiezione> proiezioni) {
-
+    private static GestorePrenotazioni inizializzaPrenotazioni(List<Utente> utenti, List<Proiezione> proiezioni) {
         GestorePrenotazioni gestorePrenotazioni = new GestorePrenotazioni();
         gestorePrenotazioni.caricaPrenotazioni(utenti, proiezioni);
         return gestorePrenotazioni;
