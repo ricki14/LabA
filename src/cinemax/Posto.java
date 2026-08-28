@@ -18,8 +18,20 @@ package cinemax;
 public class Posto {
 
     // Campi
+
+    /**
+     * Numero del posto.
+     */
     private int numeroPosto;
+
+    /**
+     * Lettera della fila.
+     */
     private char letteraFila;
+
+    /**
+     * Indica se il posto è occupato.
+     */
     private boolean occupato;
 
     /**
@@ -83,6 +95,12 @@ public class Posto {
         occupato = false;
     }
 
+    /**
+     * Imposta lo stato di occupazione del posto.
+     *
+     * @param occupato {@code true} se il posto è occupato,
+     *                 {@code false} altrimenti
+     */
     public void setOccupato(boolean occupato) {
         this.occupato = occupato;
     }

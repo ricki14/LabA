@@ -19,11 +19,34 @@ package cinemax;
 public class Film {
 
     // Campi
+    /**
+     * Titolo del film.
+     */
     private String titolo;
+
+    /**
+     * Genere del film.
+     */
     private String genere;
+
+    /**
+     * Regista del film.
+     */
     private String regista;
+
+    /**
+     * Anno di uscita del film.
+     */
     private int anno;
+
+    /**
+     * Durata del film in minuti.
+     */
     private int durata;
+
+    /**
+     * Età minima richiesta per la visione del film.
+     */
     private int etaMinima;
 
     /**

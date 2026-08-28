@@ -114,63 +114,75 @@ public abstract class Utente {
 
     // --- GETTER E SETTER ---
 
+    /**
+     * Restituisce il nome dell'utente.
+     *
+     * @return il nome dell'utente
+     */
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
+    /**
+     * Restituisce il cognome dell'utente.
+     *
+     * @return il cognome dell'utente
+     */
     public String getCognome() {
         return cognome;
     }
 
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
-    }
-
+    /**
+     * Restituisce il nome utente utilizzato per l'accesso.
+     *
+     * @return il nome utente
+     */
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    /**
+     * Restituisce la password dell'utente.
+     *
+     * @return la password dell'utente
+     */
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * Restituisce la data di nascita dell'utente.
+     *
+     * @return la data di nascita, oppure {@code null} se non specificata
+     */
     public LocalDate getDataDiNascita() {
         return dataDiNascita;
     }
 
-    public void setDataDiNascita(LocalDate dataDiNascita) {
-        this.dataDiNascita = dataDiNascita;
-    }
-
+    /**
+     * Restituisce il domicilio dell'utente.
+     *
+     * @return il domicilio dell'utente
+     */
     public Domicilio getDomicilio() {
         return domicilio;
     }
 
-    public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
-    }
-
+    /**
+     * Restituisce il ruolo dell'utente.
+     *
+     * @return il ruolo dell'utente
+     */
     public Ruolo getRuolo() {
         return ruolo;
     }
 
-    public void setRuolo(Ruolo ruolo) {
-        this.ruolo = ruolo;
-    }
-
-
+    /**
+     * Imposta lo stato di autenticazione dell'utente.
+     *
+     * @param loggato {@code true} se l'utente è autenticato,
+     *                {@code false} altrimenti
+     */
     public void setLoggato(boolean loggato) {
         this.loggato = loggato;
     }
