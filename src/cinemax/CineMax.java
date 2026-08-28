@@ -1,3 +1,9 @@
+/*
+ * Edoardo Carducci - 764215 - Varese
+ * Daniele Rossetti - 767980 - Varese
+ * Riccardo Palomba - 764224 - Varese
+ */
+
 package cinemax;
 
 import java.util.LinkedList;
@@ -9,6 +15,9 @@ import java.util.Scanner;
  *
  * <p>Si occupa di avviare il sistema, inizializzare i dati necessari
  * al funzionamento del cinema e creare il menu principale dell'applicazione.</p>
+ *
+ * @author Edoardo Carducci, Daniele Rossetti
+ * @version 2.0
  */
 public class CineMax {
 

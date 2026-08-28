@@ -1,3 +1,9 @@
+/*
+ * Edoardo Carducci - 764215 - Varese
+ * Daniele Rossetti - 767980 - Varese
+ * Riccardo Palomba - 764224 - Varese
+ */
+
 package cinemax;
 
 import java.time.LocalDateTime;

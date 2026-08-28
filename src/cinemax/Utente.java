@@ -1,3 +1,9 @@
+/*
+ * Edoardo Carducci - 764215 - Varese
+ * Daniele Rossetti - 767980 - Varese
+ * Riccardo Palomba - 764224 - Varese
+ */
+
 package cinemax;
 
 
@@ -14,6 +20,7 @@ import java.time.LocalDate;
  * <p>La data di nascita è un campo facoltativo e per questo motivo
  * sono disponibili più costruttori per la creazione delle istanze.</p>
  *
+ * @author Edoardo Carducci
  * @version 1.0
  */
 public abstract class Utente {

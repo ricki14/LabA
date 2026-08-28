@@ -1,3 +1,9 @@
+/*
+ * Edoardo Carducci - 764215 - Varese
+ * Daniele Rossetti - 767980 - Varese
+ * Riccardo Palomba - 764224 - Varese
+ */
+
 package cinemax;
 
 import java.util.LinkedList;
@@ -9,6 +15,9 @@ import java.util.List;
  * <p>La classe si occupa di inizializzare e gestire i dati principali
  * necessari al funzionamento del sistema, tra cui gli utenti,
  * le proiezioni, le prenotazioni e la programmazione del cinema.</p>
+ *
+ * @author Edoardo Carducci, Daniele Rossetti
+ * @version 1.0
  */
 public class Sistema {
 

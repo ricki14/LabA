@@ -1,3 +1,9 @@
+/*
+ * Edoardo Carducci - 764215 - Varese
+ * Daniele Rossetti - 767980 - Varese
+ * Riccardo Palomba - 764224 - Varese
+ */
+
 package cinemax;
 
 import java.time.LocalDate;
@@ -12,6 +18,9 @@ import java.util.Scanner;
  * <p>La classe gestisce il menu principale e i menu specifici per ciascun
  * tipo di utente, permettendo di effettuare operazioni come login,
  * registrazione, gestione delle prenotazioni e gestione delle proiezioni.</p>
+ *
+ * @author Edoardo Carducci, Daniele Rossetti
+ * @version 1.0
  */
 public class Menu {
 
