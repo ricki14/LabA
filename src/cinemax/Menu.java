@@ -382,7 +382,6 @@ public class Menu {
                     break;
                 case 4:
                     logoutPro = true;
-                    proiezionista.logout();
                     System.out.println("Logout effettuato");
                     break;
                 default:
@@ -645,7 +644,6 @@ public class Menu {
                     break;
                 case 3:
                     logoutBig = true;
-                    bigliettaio.setLoggato(false);
                     System.out.println("Logout effettuato");
                     break;
                 default:
@@ -711,8 +709,7 @@ public class Menu {
         while (!back) {
             System.out.println("\n----MENU' OSPITE----");
             System.out.println("1. Cerca una proiezione");
-            System.out.println("2. Visualizza dettagli di una proiezione");
-            System.out.println("3. Torna al menù principale");
+            System.out.println("2. Torna al menù principale");
             System.out.println("Scegli un'opzione: ");
 
             if (!scanner.hasNextInt()) {
@@ -726,21 +723,15 @@ public class Menu {
 
             switch (scelta) {
                 case 1:
-                    System.out.println("----CERCA UNA PROIEZIONE----");
+                    System.out.println("----CERCA UNA PROIEZIONE E VISUALIZZA I DETTAGLI----");
                     programmazione.cercaProiezione(scanner);
                     break;
-
                 case 2:
-                    System.out.println("----VISUALIZZA DETTAGLI DI UNA PROIEZIONE----");
-                    programmazione.cercaProiezione(scanner);
-                    break;
-
-                case 3:
                     back = true;
                     break;
 
                 default:
-                    System.out.println("Opzione non valida!. Inserisci un numero da 1 a 3 ");
+                    System.out.println("Opzione non valida!");
             }
         }
     }

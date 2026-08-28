@@ -226,11 +226,4 @@ public class Proiezionista extends Utente {
                 proiezioni
         );
     }
-
-    /**
-     * Effettua il logout del proiezionista.
-     */
-    public void logout() {
-        setLoggato(false);
-    }
 }

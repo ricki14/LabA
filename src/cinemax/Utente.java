@@ -163,9 +163,6 @@ public abstract class Utente {
         this.ruolo = ruolo;
     }
 
-    public boolean isLoggato() {
-        return loggato;
-    }
 
     public void setLoggato(boolean loggato) {
         this.loggato = loggato;

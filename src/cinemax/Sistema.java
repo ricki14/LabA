@@ -30,21 +30,11 @@ public class Sistema {
         }
     }
 
-    public LinkedList<Utente> getUtenti() {
-        return utenti;
-    }
 
     public List<Proiezione> getProiezioni() {
         return proiezioni;
     }
 
-    public GestoreUtenti getGestoreUtenti() {
-        return gestoreUtenti;
-    }
-
-    public GestorePrenotazioni getGestorePrenotazioni() {
-        return gestorePrenotazioni;
-    }
 
     public ProgrammazioneCinema getProgrammazione() {
         return programmazione;

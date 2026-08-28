@@ -268,14 +268,6 @@ public class GestoreUtenti {
         }
     }
 
-    /**
-     * Restituisce la lista degli utenti.
-     *
-     * @return lista degli utenti
-     */
-    public LinkedList<Utente> getUtenti() {
-        return utenti;
-    }
 
     /**
      * Cerca uno username nella lista degli utenti.
