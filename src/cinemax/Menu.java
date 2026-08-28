@@ -520,12 +520,21 @@ public class Menu {
 
         System.out.println("Titolo del film: ");
         String titolo = scanner.nextLine();
+        if (!controllaInput(titolo)) {
+            return;
+        }
 
         System.out.println("Genere: ");
         String genere = scanner.nextLine();
+        if (!controllaInput(genere)) {
+            return;
+        }
 
         System.out.println("Regista: ");
         String regista = scanner.nextLine();
+        if (!controllaInput(regista)) {
+            return;
+        }
 
         System.out.print("Anno di uscita: ");
         if (!scanner.hasNextInt()) {
@@ -536,6 +545,10 @@ public class Menu {
 
         int anno = scanner.nextInt();
         scanner.nextLine();
+        if (anno <= 0) {
+            System.out.println("Anno non valido!");
+            return;
+        }
 
         System.out.println("Durata del film (in minuti): ");
         if (!scanner.hasNextInt()) {
@@ -546,6 +559,10 @@ public class Menu {
 
         int durata = scanner.nextInt();
         scanner.nextLine();
+        if (durata <= 0) {
+            System.out.println("Durata non valida!");
+            return;
+        }
 
         System.out.print("Età minima richiesta: ");
         if (!scanner.hasNextInt()) {
@@ -556,9 +573,16 @@ public class Menu {
 
         int etaMinima = scanner.nextInt();
         scanner.nextLine();
+        if (etaMinima < 0) {
+            System.out.println("Età minima non valida!");
+            return;
+        }
 
-        System.out.print("ID proiezione (4 cifre ES. 1111) : ");
+        System.out.print("ID proiezione : ");
         String idProiezione = scanner.nextLine();
+        if (!controllaInput(idProiezione)) {
+            return;
+        }
 
         System.out.print("Prezzo biglietto: ");
         if (!scanner.hasNextDouble()) {
@@ -569,6 +593,10 @@ public class Menu {
 
         double prezzo = scanner.nextDouble();
         scanner.nextLine();
+        if (prezzo <= 0) {
+            System.out.println("Prezzo non valido!");
+            return;
+        }
 
         System.out.print("Inserisci data e ora (AAAA-MM-GG HH:MM): ");
 
